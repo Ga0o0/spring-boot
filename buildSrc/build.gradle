@@ -6,8 +6,38 @@ plugins {
 }
 
 repositories {
-	mavenCentral()
-	gradlePluginPortal()
+	maven {
+		url "https://mirrors.huaweicloud.com/repository/maven/"
+	}
+	maven {
+		url 'https://maven.aliyun.com/repository/public/'
+	}
+	maven {
+		url 'https://maven.aliyun.com/repository/central'
+	}
+	maven {
+		url 'https://maven.aliyun.com/repository/google'
+	}
+	maven {
+		url "https://maven.aliyun.com/repository/gradle-plugin"
+	}
+	maven {
+		url "https://maven.aliyun.com/repository/spring-plugin"
+	}
+	maven {
+		url "https://maven.aliyun.com/repository/spring"
+	}
+	maven {
+		url "https://maven.aliyun.com/repository/spring-plugin"
+	}
+	maven {
+		url "https://repo.spring.io/snapshot"
+	}
+	maven {
+		url "https://repo.spring.io/milestone"
+	}
+//	mavenCentral()
+//	gradlePluginPortal()
 }
 
 java {
@@ -16,7 +46,37 @@ java {
 }
 
 repositories {
-	spring.mavenRepositories("${springFrameworkVersion}".contains("-"))
+	maven {
+		url "https://mirrors.huaweicloud.com/repository/maven/"
+	}
+	maven {
+		url 'https://maven.aliyun.com/repository/public/'
+	}
+	maven {
+		url 'https://maven.aliyun.com/repository/central'
+	}
+	maven {
+		url 'https://maven.aliyun.com/repository/google'
+	}
+	maven {
+		url "https://maven.aliyun.com/repository/gradle-plugin"
+	}
+	maven {
+		url "https://maven.aliyun.com/repository/spring-plugin"
+	}
+	maven {
+		url "https://maven.aliyun.com/repository/spring"
+	}
+	maven {
+		url "https://maven.aliyun.com/repository/spring-plugin"
+	}
+	maven {
+		url "https://repo.spring.io/snapshot"
+	}
+	maven {
+		url "https://repo.spring.io/milestone"
+	}
+//	spring.mavenRepositories("${springFrameworkVersion}".contains("-"))
 }
 
 checkstyle {

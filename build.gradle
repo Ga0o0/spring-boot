@@ -15,8 +15,38 @@ subprojects {
 	apply plugin: "org.springframework.boot.conventions"
 
 	repositories {
-		mavenCentral()
-		spring.mavenRepositories()
+		maven {
+			url "https://mirrors.huaweicloud.com/repository/maven/"
+		}
+		maven {
+			url 'https://maven.aliyun.com/repository/public/'
+		}
+		maven {
+			url 'https://maven.aliyun.com/repository/central'
+		}
+		maven {
+			url 'https://maven.aliyun.com/repository/google'
+		}
+		maven {
+			url "https://maven.aliyun.com/repository/gradle-plugin"
+		}
+		maven {
+			url "https://maven.aliyun.com/repository/spring-plugin"
+		}
+		maven {
+			url "https://maven.aliyun.com/repository/spring"
+		}
+		maven {
+			url "https://maven.aliyun.com/repository/spring-plugin"
+		}
+		maven {
+			url "https://repo.spring.io/snapshot"
+		}
+		maven {
+			url "https://repo.spring.io/milestone"
+		}
+//		mavenCentral()
+//		spring.mavenRepositories()
 	}
 
 	configurations.all {
