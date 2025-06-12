@@ -26,24 +26,28 @@ import org.springframework.util.Assert;
  * @author Phillip Webb
  * @since 2.0.0
  */
+// 来自 {@link ConfigurationPropertySource} 的内容状态。
 public enum ConfigurationPropertyState {
 
 	/**
 	 * The {@link ConfigurationPropertySource} has at least one matching
 	 * {@link ConfigurationProperty}.
 	 */
+	// {@link ConfigurationPropertySource} 至少有一个匹配的 {@link ConfigurationProperty}。
 	PRESENT,
 
 	/**
 	 * The {@link ConfigurationPropertySource} has no matching
 	 * {@link ConfigurationProperty ConfigurationProperties}.
 	 */
+	// {@link ConfigurationPropertySource} 没有匹配的 {@link ConfigurationProperty ConfigurationProperties}。
 	ABSENT,
 
 	/**
 	 * It's not possible to determine if {@link ConfigurationPropertySource} has matching
 	 * {@link ConfigurationProperty ConfigurationProperties} or not.
 	 */
+	// 无法确定 {@link ConfigurationPropertySource} 是否有匹配的 {@link ConfigurationProperty ConfigurationProperties}。
 	UNKNOWN;
 
 	/**
@@ -55,6 +59,11 @@ public enum ConfigurationPropertyState {
 	 * @return {@link #PRESENT} if the iterable contains a matching item, otherwise
 	 * {@link #ABSENT}.
 	 */
+	// 使用谓词搜索给定的可迭代对象，以确定内容是 {@link #PRESENT} 还是 {@link #ABSENT}。
+	// @param <T> 数据类型
+	// @param source 要搜索的源可迭代对象
+	// @param predicate 用于测试是否存在的谓词
+	// @return 如果可迭代对象包含匹配项，则返回 {@link #PRESENT}，否则返回 {@link #ABSENT}。
 	static <T> ConfigurationPropertyState search(Iterable<T> source, Predicate<T> predicate) {
 		Assert.notNull(source, "Source must not be null");
 		Assert.notNull(predicate, "Predicate must not be null");

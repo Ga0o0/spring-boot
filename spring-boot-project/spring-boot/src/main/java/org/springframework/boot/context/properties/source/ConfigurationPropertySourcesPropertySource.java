@@ -30,6 +30,7 @@ import org.springframework.core.env.PropertySource;
  * @author Phillip Webb
  * @author Madhura Bhave
  */
+// {@link PropertySource} 公开 {@link ConfigurationPropertySource} 实例，以便它们可以与 {@link PropertyResolver} 一起使用或添加到 {@link Environment}。
 class ConfigurationPropertySourcesPropertySource extends PropertySource<Iterable<ConfigurationPropertySource>>
 		implements OriginLookup<String> {
 

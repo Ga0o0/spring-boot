@@ -28,24 +28,28 @@ import org.springframework.util.ClassUtils;
  * @author Brian Clozel
  * @since 2.0.0
  */
+// 可能的 Web 应用程序类型的枚举。
 public enum WebApplicationType {
 
 	/**
 	 * The application should not run as a web application and should not start an
 	 * embedded web server.
 	 */
+	// 该应用不应作为 Web 应用运行，也不应启动嵌入式 Web 服务器。
 	NONE,
 
 	/**
 	 * The application should run as a servlet-based web application and should start an
 	 * embedded servlet web server.
 	 */
+	// 该应用应作为基于 Servlet 的 Web 应用运行，并应启动嵌入式 Servlet Web 服务器。
 	SERVLET,
 
 	/**
 	 * The application should run as a reactive web application and should start an
 	 * embedded reactive web server.
 	 */
+	// 该应用应作为响应式 Web 应用运行，并应启动嵌入式响应式 Web 服务器。
 	REACTIVE;
 
 	private static final String[] SERVLET_INDICATOR_CLASSES = { "jakarta.servlet.Servlet",
@@ -57,7 +61,7 @@ public enum WebApplicationType {
 
 	private static final String JERSEY_INDICATOR_CLASS = "org.glassfish.jersey.servlet.ServletContainer";
 
-	static WebApplicationType deduceFromClasspath() {
+	static WebApplicationType deduceFromClasspath() { // 从类路径推断
 		if (ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null) && !ClassUtils.isPresent(WEBMVC_INDICATOR_CLASS, null)
 				&& !ClassUtils.isPresent(JERSEY_INDICATOR_CLASS, null)) {
 			return WebApplicationType.REACTIVE;

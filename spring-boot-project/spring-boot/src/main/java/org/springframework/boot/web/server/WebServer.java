@@ -25,6 +25,7 @@ package org.springframework.boot.web.server;
  * @author Dave Syer
  * @since 2.0.0
  */
+// 代表已完全配置的 Web 服务器（例如 Tomcat、Jetty、Netty）的简单接口。允许服务器 {@link #start() 启动} 和 {@link #stop() 停止}。
 public interface WebServer {
 
 	/**
@@ -32,6 +33,8 @@ public interface WebServer {
 	 * effect.
 	 * @throws WebServerException if the server cannot be started
 	 */
+	// 启动 Web 服务器。在已启动的服务器上调用此方法无效。
+	// @throws WebServerException 如果服务器无法启动
 	void start() throws WebServerException;
 
 	/**
@@ -39,12 +42,16 @@ public interface WebServer {
 	 * effect.
 	 * @throws WebServerException if the server cannot be stopped
 	 */
+	// 停止 Web 服务器。在已停止的服务器上调用此方法无效。
+	// @throws WebServerException 如果服务器无法停止
 	void stop() throws WebServerException;
 
 	/**
 	 * Return the port this server is listening on.
 	 * @return the port (or -1 if none)
 	 */
+	// 返回此服务器正在监听的端口。
+	// @return 端口（如果没有，则返回 -1）
 	int getPort();
 
 	/**
@@ -57,6 +64,9 @@ public interface WebServer {
 	 * @param callback the callback to invoke when the graceful shutdown completes
 	 * @since 2.3.0
 	 */
+	// 启动 Web 服务器的优雅关闭。系统将阻止处理新请求，并在尝试结束时调用指定的 {@code callback}。
+	// 可以通过调用 {@link #stop} 显式结束尝试。默认实现会立即调用回调函数 {@link GracefulShutdownResult#IMMEDIATE}，即不会尝试优雅关闭。
+	// @param 回调函数用于指定优雅关闭完成后要调用的回调函数。
 	default void shutDownGracefully(GracefulShutdownCallback callback) {
 		callback.shutdownComplete(GracefulShutdownResult.IMMEDIATE);
 	}
@@ -65,6 +75,7 @@ public interface WebServer {
 	 * Destroys the web server such that it cannot be started again.
 	 * @since 3.2.0
 	 */
+	// 破坏 Web 服务器，使其无法再次启动。
 	default void destroy() {
 		stop();
 	}

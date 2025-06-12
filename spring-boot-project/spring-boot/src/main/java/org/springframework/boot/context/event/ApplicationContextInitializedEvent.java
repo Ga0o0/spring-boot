@@ -28,6 +28,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Artsiom Yudovin
  * @since 2.1.0
  */
+// 当 {@link SpringApplication} 启动并且 {@link ApplicationContext} 已
+// 准备好并且已调用 ApplicationContextInitializers 但在加载任何 bean 定义之前时发布事件。
 @SuppressWarnings("serial")
 public class ApplicationContextInitializedEvent extends SpringApplicationEvent {
 
@@ -39,6 +41,10 @@ public class ApplicationContextInitializedEvent extends SpringApplicationEvent {
 	 * @param args the arguments the application is running with
 	 * @param context the context that has been initialized
 	 */
+	// 创建一个新的 {@link ApplicationContextInitializedEvent} 实例。
+	// @param application 当前应用程序
+	// @param args 应用程序运行时使用的参数
+	// @param context 已初始化的上下文
 	public ApplicationContextInitializedEvent(SpringApplication application, String[] args,
 			ConfigurableApplicationContext context) {
 		super(application, args);
@@ -49,6 +55,8 @@ public class ApplicationContextInitializedEvent extends SpringApplicationEvent {
 	 * Return the application context.
 	 * @return the context
 	 */
+	// 返回应用程序上下文。
+	// @return the context
 	public ConfigurableApplicationContext getApplicationContext() {
 		return this.context;
 	}

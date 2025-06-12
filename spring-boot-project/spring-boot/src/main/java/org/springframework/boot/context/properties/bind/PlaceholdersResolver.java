@@ -26,12 +26,14 @@ import org.springframework.core.env.PropertyResolver;
  * @since 2.0.0
  * @see PropertySourcesPlaceholdersResolver
  */
+// {@link Binder} 用于解析属性占位符的可选策略。
 @FunctionalInterface
 public interface PlaceholdersResolver {
 
 	/**
 	 * No-op {@link PropertyResolver}.
 	 */
+	// 无操作 {@link PropertyResolver}。
 	PlaceholdersResolver NONE = (value) -> value;
 
 	/**
@@ -39,6 +41,9 @@ public interface PlaceholdersResolver {
 	 * @param value the source value
 	 * @return a value with placeholders resolved
 	 */
+	// 调用此函数来解析给定值中的任何占位符。
+	// @param value 源值
+	// @return 已解析占位符的值
 	Object resolvePlaceholders(Object value);
 
 }

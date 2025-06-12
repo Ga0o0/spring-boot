@@ -32,6 +32,7 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
  *
  * @author Phillip Webb
  */
+// 默认的 {@link ApplicationContextFactory} 实现将为 {@link WebApplicationType} 创建适当的上下文。
 class DefaultApplicationContextFactory implements ApplicationContextFactory {
 
 	@Override

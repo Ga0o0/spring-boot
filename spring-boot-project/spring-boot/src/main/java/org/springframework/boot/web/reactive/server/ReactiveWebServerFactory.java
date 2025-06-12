@@ -27,6 +27,7 @@ import org.springframework.http.server.reactive.HttpHandler;
  * @since 2.0.0
  * @see WebServer
  */
+// 工厂接口可用于创建反应式 {@link WebServer}。
 @FunctionalInterface
 public interface ReactiveWebServerFactory extends WebServerFactory {
 
@@ -39,6 +40,10 @@ public interface ReactiveWebServerFactory extends WebServerFactory {
 	 * @return a fully configured and started {@link WebServer}
 	 * @see WebServer#stop()
 	 */
+	// 获取一个已完全配置但已暂停的新 {@link WebServer} 实例。
+	// 客户端在调用 {@link WebServer#start()} 之前（即 {@code ApplicationContext} 完全刷新后）无法连接到返回的服务器。
+	// @param httpHandler 负责处理请求的 HTTP 处理程序
+	// @return 已完全配置并启动的 {@link WebServer}
 	WebServer getWebServer(HttpHandler httpHandler);
 
 }

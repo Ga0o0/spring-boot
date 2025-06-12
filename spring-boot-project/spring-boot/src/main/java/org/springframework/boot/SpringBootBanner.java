@@ -28,6 +28,7 @@ import org.springframework.core.env.Environment;
  *
  * @author Phillip Webb
  */
+// 默认横幅实现，写入 “Spring” 横幅。
 class SpringBootBanner implements Banner {
 
 	private static final String BANNER = """

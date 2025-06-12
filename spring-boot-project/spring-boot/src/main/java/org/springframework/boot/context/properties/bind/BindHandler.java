@@ -26,11 +26,13 @@ import org.springframework.boot.context.properties.source.ConfigurationPropertyN
  * @author Madhura Bhave
  * @since 2.0.0
  */
+// 回调接口可用于处理元素{@link Binder 绑定}期间的附加逻辑。
 public interface BindHandler {
 
 	/**
 	 * Default no-op bind handler.
 	 */
+	// 默认无操作绑定处理程序。
 	BindHandler DEFAULT = new BindHandler() {
 
 	};

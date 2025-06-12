@@ -113,6 +113,10 @@ import org.springframework.util.StringUtils;
  * @see #setConfigurations(Collection)
  * @see JettyWebServer
  */
+// {@link ServletWebServerFactory} 可用于创建 {@link JettyWebServer}。
+// 可以使用 Spring 的 {@link ServletContextInitializer} 或 Jetty 的 {@link Configuration} 进行初始化。
+//
+// <p> 除非另有明确配置，否则此工厂将创建在 8080 端口监听 HTTP 请求的服务器。
 public class JettyServletWebServerFactory extends AbstractServletWebServerFactory
 		implements ConfigurableJettyWebServerFactory, ResourceLoaderAware {
 

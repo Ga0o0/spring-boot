@@ -24,21 +24,25 @@ package org.springframework.boot.web.server;
  * @see GracefulShutdownCallback
  * @see WebServer#shutDownGracefully(GracefulShutdownCallback)
  */
+// 正常关机请求的结果。
 public enum GracefulShutdownResult {
 
 	/**
 	 * Requests remained active at the end of the grace period.
 	 */
+	// 宽限期结束时，请求仍处于活动状态。
 	REQUESTS_ACTIVE,
 
 	/**
 	 * The server was idle with no active requests at the end of the grace period.
 	 */
+	// 宽限期结束时，服务器处于空闲状态，没有活动请求。
 	IDLE,
 
 	/**
 	 * The server was shutdown immediately, ignoring any active requests.
 	 */
+	// 服务器立即关闭，忽略任何活动请求。
 	IMMEDIATE
 
 }

@@ -58,6 +58,9 @@ import org.springframework.util.StringUtils;
  * @author Sebastien Deleuze
  * @see #setBeanNameGenerator(BeanNameGenerator)
  */
+// 从底层数据源（包括 XML 和 JavaConfig）加载 Bean 定义。
+// 它充当 {@link AnnotatedBeanDefinitionReader}、{@link XmlBeanDefinitionReader} 和 {@link ClassPathBeanDefinitionScanner} 的简单外观。
+// 请参阅 {@link SpringApplication} 了解支持的数据源类型。
 class BeanDefinitionLoader {
 
 	private static final Pattern GROOVY_CLOSURE_PATTERN = Pattern.compile(".*\\$_.*closure.*");
@@ -80,6 +83,9 @@ class BeanDefinitionLoader {
 	 * @param registry the bean definition registry that will contain the loaded beans
 	 * @param sources the bean sources
 	 */
+	// 创建一个新的 {@link BeanDefinitionLoader}，用于将 Bean 加载到指定的 {@link BeanDefinitionRegistry} 中。
+	// @param registry 包含已加载 Bean 的 Bean 定义注册表
+	// @param sources Bean 源
 	BeanDefinitionLoader(BeanDefinitionRegistry registry, Object... sources) {
 		Assert.notNull(registry, "Registry must not be null");
 		Assert.notEmpty(sources, "Sources must not be empty");
@@ -124,6 +130,7 @@ class BeanDefinitionLoader {
 	/**
 	 * Load the sources into the reader.
 	 */
+	// 将源加载到 reader 中。
 	void load() {
 		for (Object source : this.sources) {
 			load(source);

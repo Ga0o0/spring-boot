@@ -29,6 +29,8 @@ import org.springframework.core.env.PropertySourcesPropertyResolver;
  *
  * @author Phillip Webb
  */
+// 替代的 {@link PropertySourcesPropertyResolver} 实现，
+// 可识别 {@link ConfigurationPropertySourcesPropertySource}，并且如果名称是值 {@link ConfigurationPropertyName}，则保存对底层源的重复调用。
 class ConfigurationPropertySourcesPropertyResolver extends AbstractPropertyResolver {
 
 	private final MutablePropertySources propertySources;

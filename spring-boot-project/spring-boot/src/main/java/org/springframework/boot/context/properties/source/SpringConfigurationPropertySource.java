@@ -50,6 +50,15 @@ import org.springframework.util.Assert;
  * @see PropertyMapper
  * @see SpringIterableConfigurationPropertySource
  */
+// {@link ConfigurationPropertySource} 由不可枚举的 Spring {@link PropertySource} 或
+// 受限制的 {@link EnumerablePropertySource} 实现（例如受安全限制的 {@code systemEnvironment} 源）支持。
+// {@link PropertySource} 在 {@link PropertyMapper} 的帮助下进行适配，后者为各个属性提供映射规则。
+//
+// <p> 每个 {@link ConfigurationPropertySource#getConfigurationProperty getConfigurationProperty} 调用
+// 都会尝试将 {@link PropertyMapper#map(ConfigurationPropertyName) map} 的 {@link ConfigurationPropertyName}
+// 映射到一个或多个基于 {@code String} 的名称。这允许快速解析格式良好的属性源。
+//
+// <p> 如果可能，将优先使用 {@link SpringIterableConfigurationPropertySource} 实现，因为它支持完全“宽松”的解析方式。
 class SpringConfigurationPropertySource implements ConfigurationPropertySource {
 
 	private static final PropertyMapper[] DEFAULT_MAPPERS = { DefaultPropertyMapper.INSTANCE };

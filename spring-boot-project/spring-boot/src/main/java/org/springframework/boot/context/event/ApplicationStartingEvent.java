@@ -33,6 +33,9 @@ import org.springframework.core.env.Environment;
  * @author Madhura Bhave
  * @since 1.5.0
  */
+// 事件应在 {@link SpringApplication} 启动后尽早发布 - 在 {@link Environment} 或
+// {@link ApplicationContext} 可用之前，但在 {@link ApplicationListener} 注册之后。
+// 事件的来源是 {@link SpringApplication} 本身，但请注意不要在早期阶段过多使用其内部状态，因为它可能会在生命周期的后期被修改。
 @SuppressWarnings("serial")
 public class ApplicationStartingEvent extends SpringApplicationEvent {
 
@@ -44,6 +47,10 @@ public class ApplicationStartingEvent extends SpringApplicationEvent {
 	 * @param application the current application
 	 * @param args the arguments the application is running with
 	 */
+	// 创建一个新的 {@link ApplicationStartingEvent} 实例。
+	// @param bootstrapContext 启动上下文
+	// @param application 当前应用程序
+	// @param args 应用程序运行时使用的参数
 	public ApplicationStartingEvent(ConfigurableBootstrapContext bootstrapContext, SpringApplication application,
 			String[] args) {
 		super(application, args);
@@ -55,6 +62,8 @@ public class ApplicationStartingEvent extends SpringApplicationEvent {
 	 * @return the bootstrap context
 	 * @since 2.4.0
 	 */
+	// 返回引导上下文。
+	// @return 引导上下文
 	public ConfigurableBootstrapContext getBootstrapContext() {
 		return this.bootstrapContext;
 	}

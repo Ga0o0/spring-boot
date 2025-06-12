@@ -95,6 +95,20 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * @see XmlServletWebServerApplicationContext
  * @see ServletWebServerFactory
  */
+// 一个 {@link WebApplicationContext}，可用于从其包含的 {@link ServletWebServerFactory} bean 引导自身。
+//
+// <p>此上下文将通过在 {@link ApplicationContext} 自身内搜索单个 {@link ServletWebServerFactory} bean 来创建、
+// 初始化并运行 {@link WebServer}。{@link ServletWebServerFactory} 可以自由使用标准 Spring 概念（例如依赖注入、生命周期回调和属性占位符变量）。
+//
+// <p>此外，上下文中定义的任何 {@link Servlet} 或 {@link Filter} bean 都将自动注册到 Web 服务器。
+// 如果是单个 Servlet bean，则将使用“/”映射。如果找到多个 Servlet bean，则将使用小写的 bean 名称作为映射前缀。
+// 任何名为“dispatcherServlet”的 Servlet 都将始终映射到“/”。Filter bean 将映射到所有 URL（“/”）。
+//
+// <p> 如需更高级的配置，上下文可以定义实现 {@link ServletContextInitializer} 接口的 bean（通常是 {@link ServletRegistrationBean}
+// 和/或 {@link FilterRegistrationBean}）。为防止重复注册，使用 {@link ServletContextInitializer} bean 将禁用 Servlet 和 Filter bean 的自动注册。
+//
+// <p> 虽然可以直接使用此上下文，但大多数开发人员应该考虑使用 {@link AnnotationConfigServletWebServerApplicationContext}
+// 或 {@link XmlServletWebServerApplicationContext} 变体。
 public class ServletWebServerApplicationContext extends GenericWebApplicationContext
 		implements ConfigurableWebServerApplicationContext {
 
@@ -146,6 +160,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 			super.refresh();
 		}
 		catch (RuntimeException ex) {
+			// WebServer  启动报错时，销毁 WebServer
 			WebServer webServer = this.webServer;
 			if (webServer != null) {
 				try {
@@ -164,6 +179,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	protected void onRefresh() {
 		super.onRefresh();
 		try {
+			// 创建 web 服务器
 			createWebServer();
 		}
 		catch (Throwable ex) {
@@ -188,12 +204,16 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		ServletContext servletContext = getServletContext();
 		if (webServer == null && servletContext == null) {
 			StartupStep createWebServer = getApplicationStartup().start("spring.boot.webserver.create");
+			// 返回用于创建嵌入式 WebServer 的 ServletWebServerFactory。默认情况下，此方法会在上下文中搜索合适的 bean。
 			ServletWebServerFactory factory = getWebServerFactory();
 			createWebServer.tag("factory", factory.getClass().toString());
+			// getSelfInitializer() -> 返回用于完成此 WebApplicationContext 设置的 ServletContextInitializer（该实例的 onStartup 方法会调用所有的 ServletContextInitializer#onStartup()）。
 			this.webServer = factory.getWebServer(getSelfInitializer());
 			createWebServer.end();
 			getBeanFactory().registerSingleton("webServerGracefulShutdown",
+					// WebServerGracefulShutdownLifecycle 触发 WebServer 正常关机。
 					new WebServerGracefulShutdownLifecycle(this.webServer));
+			// WebServerStartStopLifecycle 在 ServletWebServerApplicationContext 中启动和停止 WebServer。
 			getBeanFactory().registerSingleton("webServerStartStop",
 					new WebServerStartStopLifecycle(this, this.webServer));
 		}
@@ -205,6 +225,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 				throw new ApplicationContextException("Cannot initialize servlet context", ex);
 			}
 		}
+		// 处理 servletConfigInitParams/servletContextInitParams PropertySources
 		initPropertySources();
 	}
 
@@ -214,14 +235,17 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 * the context itself.
 	 * @return a {@link ServletWebServerFactory} (never {@code null})
 	 */
+	// 返回用于创建嵌入式 {@link WebServer} 的 {@link ServletWebServerFactory}。默认情况下，此方法会在上下文中搜索合适的 bean。
+	// @return a {@link ServletWebServerFactory}（永远不会返回 {@code null}）
 	protected ServletWebServerFactory getWebServerFactory() {
-		// Use bean names so that we don't consider the hierarchy
+		// Use bean names so that we don't consider the hierarchy --> 译文：使用 bean 名称，这样我们就不会考虑层次结构
 		String[] beanNames = getBeanFactory().getBeanNamesForType(ServletWebServerFactory.class);
 		if (beanNames.length == 0) {
 			throw new MissingWebServerFactoryBeanException(getClass(), ServletWebServerFactory.class,
 					WebApplicationType.SERVLET);
 		}
 		if (beanNames.length > 1) {
+			// 由于存在多个 ServletWebServerFactory bean，无法启动 ServletWebServerApplicationContext
 			throw new ApplicationContextException("Unable to start ServletWebServerApplicationContext due to multiple "
 					+ "ServletWebServerFactory beans : " + StringUtils.arrayToCommaDelimitedString(beanNames));
 		}
@@ -234,15 +258,22 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 * @return the self initializer
 	 * @see #prepareWebApplicationContext(ServletContext)
 	 */
+	// 返回用于完成此 {@link WebApplicationContext} 设置的 {@link ServletContextInitializer}。
+	// @return 自我初始化器
 	private org.springframework.boot.web.servlet.ServletContextInitializer getSelfInitializer() {
 		return this::selfInitialize;
 	}
 
 	private void selfInitialize(ServletContext servletContext) throws ServletException {
+		// 使用给定的已完全加载的 ServletContext 准备 WebApplicationContext。
 		prepareWebApplicationContext(servletContext);
+		// 注册 application Scope；即：ServletContextScope
 		registerApplicationScope(servletContext);
+		// 注册环境 Beans；例如：servletContext、servletConfig、contextParameters、contextAttributes
 		WebApplicationContextUtils.registerEnvironmentBeans(getBeanFactory(), servletContext);
+		// getServletContextInitializerBeans() ->  返回应与嵌入式 Web 服务器一起使用的 ServletContextInitializer。
 		for (ServletContextInitializer initializerBean : getServletContextInitializerBeans()) {
+			// invoke ServletContextInitializer#onStartup()
 			initializerBean.onStartup(servletContext);
 		}
 	}
@@ -251,6 +282,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		ServletContextScope appScope = new ServletContextScope(servletContext);
 		getBeanFactory().registerScope(WebApplicationContext.SCOPE_APPLICATION, appScope);
 		// Register as ServletContext attribute, for ContextCleanupListener to detect it.
+		// --> 译文：注册为 ServletContext 属性，以便 ContextCleanupListener 可以检测到它。
 		servletContext.setAttribute(ServletContextScope.class.getName(), appScope);
 	}
 
@@ -267,6 +299,9 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 * {@link EventListener} beans.
 	 * @return the servlet initializer beans
 	 */
+	// 返回应与嵌入式 Web 服务器一起使用的 {@link ServletContextInitializer}。
+	// 默认情况下，此方法将首先尝试查找 {@link ServletContextInitializer}、{@link Servlet}、{@link Filter} 以及某些 {@link EventListener} bean。
+	// @return servlet 初始化器 bean
 	protected Collection<ServletContextInitializer> getServletContextInitializerBeans() {
 		return new ServletContextInitializerBeans(getBeanFactory());
 	}
@@ -278,6 +313,10 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 * functionality usually provided by a {@link ContextLoaderListener}.
 	 * @param servletContext the operational servlet context
 	 */
+	// 使用给定的已完全加载的 {@link ServletContext} 准备 {@link WebApplicationContext}。
+	// 此方法通常由 {@link ServletContextInitializer#onStartup(ServletContext)} 调用，
+	// 类似于 {@link ContextLoaderListener} 通常提供的功能。
+	// @param servletContext 可操作的 Servlet 上下文
 	protected void prepareWebApplicationContext(ServletContext servletContext) {
 		Object rootContext = servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		if (rootContext != null) {

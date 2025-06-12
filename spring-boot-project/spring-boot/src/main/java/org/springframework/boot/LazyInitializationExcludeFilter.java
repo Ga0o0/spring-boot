@@ -43,6 +43,21 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
  * @author Philip Webb
  * @since 2.2.0
  */
+// 可用于排除 Bean 定义使其 {@link LazyInitializationBeanFactoryPostProcessor} 无法设置其
+// {@link AbstractBeanDefinition#setLazyInit(boolean) lazy-init} 的过滤器。
+//
+// <p>主要用于允许下游项目处理不易支持延迟加载的边缘情况（例如在动态创建其他 Bean 的 DSL 中）。
+// 将此过滤器的实例添加到应用程序上下文可用于处理这些边缘情况。
+//
+// <p>典型示例如下：
+// <pre>
+// @Bean
+// public static LazyInitializationExcludeFilter integrationLazyInitializationExcludeFilter() {
+// 		return LazyInitializationExcludeFilter.forBeanTypes(IntegrationFlow.class);
+// }
+// </pre>
+//
+// <p>注意：这种类型的 Bean 将在 Spring 应用程序生命周期的早期实例化，因此它们通常应声明为静态的并且没有任何依赖项。
 @FunctionalInterface
 public interface LazyInitializationExcludeFilter {
 

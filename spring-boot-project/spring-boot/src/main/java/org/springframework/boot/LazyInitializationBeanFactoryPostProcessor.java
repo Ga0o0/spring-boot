@@ -49,6 +49,12 @@ import org.springframework.core.Ordered;
  * @since 2.2.0
  * @see LazyInitializationExcludeFilter
  */
+// {@link BeanFactoryPostProcessor} 在未 {@link LazyInitializationExcludeFilter excluded} 且尚未显式设置值的 Bean 定义上设置延迟初始化。
+//
+// <p>请注意，{@link SmartInitializingSingleton SmartInitializingSingletons} 会自动从延迟初始化中排除，
+// 以确保调用其 {@link SmartInitializingSingleton#afterSingletonsInstantiated() 回调方法}。
+//
+// <p>处于 {@link BeanDefinition#ROLE_INFRASTRUCTURE 基础架构角色} 的 Bean 也会自动从延迟初始化中排除。
 public final class LazyInitializationBeanFactoryPostProcessor implements BeanFactoryPostProcessor, Ordered {
 
 	@Override

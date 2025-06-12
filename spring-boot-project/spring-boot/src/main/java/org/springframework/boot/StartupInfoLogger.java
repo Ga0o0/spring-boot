@@ -37,6 +37,7 @@ import org.springframework.util.StringUtils;
  * @author Dave Syer
  * @author Moritz Halbritter
  */
+// 在启动时记录应用程序信息。
 class StartupInfoLogger {
 
 	private final Class<?> sourceClass;

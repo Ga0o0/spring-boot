@@ -25,6 +25,7 @@ package org.springframework.boot.web.server;
  * @see org.springframework.boot.web.servlet.server.ServletWebServerFactory
  * @see org.springframework.boot.web.reactive.server.ReactiveWebServerFactory
  */
+// 为创建 {@link WebServer} 的工厂标记接口。
 public interface WebServerFactory {
 
 }

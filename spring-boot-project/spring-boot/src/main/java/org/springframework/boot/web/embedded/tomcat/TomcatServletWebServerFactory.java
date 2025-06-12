@@ -113,6 +113,10 @@ import org.springframework.util.StringUtils;
  * @see #setContextLifecycleListeners(Collection)
  * @see TomcatWebServer
  */
+// {@link AbstractServletWebServerFactory} 可用于创建 {@link TomcatWebServer}。
+// 可以使用 Spring 的 {@link ServletContextInitializer} 或 Tomcat 的 {@link LifecycleListener} 进行初始化。
+// <p>
+// 除非另有明确配置，否则此工厂将创建在 8080 端口监听 HTTP 请求的容器。
 public class TomcatServletWebServerFactory extends AbstractServletWebServerFactory
 		implements ConfigurableTomcatWebServerFactory, ResourceLoaderAware {
 
@@ -201,23 +205,28 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 			Registry.disableRegistry();
 		}
 		Tomcat tomcat = new Tomcat();
+		// baseDir -> <prefix>.<port>.
 		File baseDir = (this.baseDirectory != null) ? this.baseDirectory : createTempDir("tomcat");
 		tomcat.setBaseDir(baseDir.getAbsolutePath());
+		// add LifecycleListener
 		for (LifecycleListener listener : this.serverLifecycleListeners) {
 			tomcat.getServer().addLifecycleListener(listener);
 		}
+		// this.protocol = DEFAULT_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol"
 		Connector connector = new Connector(this.protocol);
 		connector.setThrowOnFailure(true);
 		tomcat.getService().addConnector(connector);
-		customizeConnector(connector);
+		customizeConnector(connector); // 自定义连接器
 		tomcat.setConnector(connector);
 		registerConnectorExecutor(tomcat, connector);
 		tomcat.getHost().setAutoDeploy(false);
-		configureEngine(tomcat.getEngine());
+		configureEngine(tomcat.getEngine()); // 配置 Engine
+		// add Connector by loop additionalTomcatConnectors
 		for (Connector additionalConnector : this.additionalTomcatConnectors) {
 			tomcat.getService().addConnector(additionalConnector);
 			registerConnectorExecutor(tomcat, additionalConnector);
 		}
+		// 准备 Tomcat Embedded Context
 		prepareContext(tomcat.getHost(), initializers);
 		return getTomcatWebServer(tomcat);
 	}
@@ -342,7 +351,7 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 		}
 	}
 
-	// Needs to be protected so it can be used by subclasses
+	// Needs to be protected so it can be used by subclasses --> 译文：需要受到保护，以便子类可以使用
 	protected void customizeConnector(Connector connector) {
 		int port = Math.max(getPort(), 0);
 		connector.setPort(port);
@@ -516,6 +525,9 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 	 * @param tomcat the Tomcat server.
 	 * @return a new {@link TomcatWebServer} instance
 	 */
+	// 调用工厂方法创建 {@link TomcatWebServer}。子类可以重写此方法，返回不同的 {@link TomcatWebServer} 或对 Tomcat 服务器进行其他处理。
+	// @param tomcat Tomcat 服务器。
+	// @return 一个新的 {@link TomcatWebServer} 实例
 	protected TomcatWebServer getTomcatWebServer(Tomcat tomcat) {
 		return new TomcatWebServer(tomcat, getPort() >= 0, getShutdown());
 	}

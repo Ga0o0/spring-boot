@@ -53,6 +53,13 @@ import org.springframework.util.ClassUtils;
  * @see ServletWebServerApplicationContext
  * @see AnnotationConfigServletWebApplicationContext
  */
+// {@link ServletWebServerApplicationContext} 接受带注解的类作为输入 -
+// 特别是带 {@link org.springframework.context.annotation.Configuration @Configuration} 注解的类，
+// 但也接受普通的 {@link Component @Component} 类和使用 {@code javax.inject} 注解的符合 JSR-330 规范的类。
+// 允许逐个注册类（将类名指定为配置位置），以及进行类路径扫描（将基础包指定为配置位置）。
+//
+// <p> 注意：如果有多个 {@code @Configuration} 类，后面的 {@code @Bean} 定义将覆盖之前加载文件中定义的定义。
+// 可以利用此功能通过额外的 Configuration 类来故意覆盖某些 Bean 定义。
 public class AnnotationConfigServletWebServerApplicationContext extends ServletWebServerApplicationContext
 		implements AnnotationConfigRegistry {
 

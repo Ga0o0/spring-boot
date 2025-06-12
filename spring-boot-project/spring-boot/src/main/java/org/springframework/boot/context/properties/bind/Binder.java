@@ -54,6 +54,7 @@ import org.springframework.util.Assert;
  * @author Madhura Bhave
  * @since 2.0.0
  */
+// 一个容器对象，它绑定来自一个或多个 {@link ConfigurationPropertySource ConfigurationPropertySources} 的对象。
 public class Binder {
 
 	private static final Set<Class<?>> NON_BEAN_CLASSES = Collections
@@ -136,6 +137,13 @@ public class Binder {
 	 * binding
 	 * @since 2.2.0
 	 */
+	// 为指定的源创建一个新的 {@link Binder} 实例。
+	// @param sources 用于绑定的源
+	// @param placeholdersResolver 解析器策略，用于解析任何属性占位符
+	// @param conversionService 用于转换值的转换服务（如果使用 {@link ApplicationConversionService}，则返回 {@code null}）
+	// @param propertyEditorInitializer 用于配置可转换值的属性编辑器的初始化器（如果不需要初始化，则返回 {@code null}）。
+	// 通常用于调用 {@link ConfigurableListableBeanFactory#copyRegisteredEditorsTo}。
+	// @param defaultBindHandler 绑定时未指定时使用的默认绑定处理程序
 	public Binder(Iterable<ConfigurationPropertySource> sources, PlaceholdersResolver placeholdersResolver,
 			ConversionService conversionService, Consumer<PropertyEditorRegistry> propertyEditorInitializer,
 			BindHandler defaultBindHandler) {
@@ -157,6 +165,14 @@ public class Binder {
 	 * constructor to use when binding
 	 * @since 2.2.1
 	 */
+	// 为指定的源创建一个新的 {@link Binder} 实例。
+	// @param sources 用于绑定的源
+	// @param placeholdersResolver 解析器策略，用于解析任何属性占位符
+	// @param conversionService 用于转换值的转换服务（如果使用 {@link ApplicationConversionService}，则为 {@code null}）
+	// @param propertyEditorInitializer 用于配置可转换值的属性编辑器的初始化器（如果不需要初始化，则为 {@code null}）。
+	// 通常用于调用 {@link ConfigurableListableBeanFactory#copyRegisteredEditorsTo}。
+	// @param defaultBindHandler 绑定时未指定时使用的默认绑定处理程序
+	// @param constructorProvider 构造函数提供程序，提供绑定时使用的绑定构造函数
 	public Binder(Iterable<ConfigurationPropertySource> sources, PlaceholdersResolver placeholdersResolver,
 			ConversionService conversionService, Consumer<PropertyEditorRegistry> propertyEditorInitializer,
 			BindHandler defaultBindHandler, BindConstructorProvider constructorProvider) {
@@ -181,6 +197,14 @@ public class Binder {
 	 * constructor to use when binding
 	 * @since 2.5.0
 	 */
+	// 为指定的源创建一个新的 {@link Binder} 实例。
+	// @param sources 用于绑定的源
+	// @param placeholdersResolver 解析器策略，用于解析任何属性占位符
+	// @param conversionServices 用于转换值的转换服务（如果使用 {@link ApplicationConversionService}，则返回 {@code null}）
+	// @param propertyEditorInitializer 用于配置可转换值的属性编辑器的初始化器（如果不需要初始化，则返回 {@code null}）。
+	// 通常用于调用 {@link ConfigurableListableBeanFactory#copyRegisteredEditorsTo}。
+	// @param defaultBindHandler 绑定时未指定时使用的默认绑定处理程序
+	// @param constructorProvider 构造函数提供程序，提供绑定时使用的绑定构造函数
 	public Binder(Iterable<ConfigurationPropertySource> sources, PlaceholdersResolver placeholdersResolver,
 			List<ConversionService> conversionServices, Consumer<PropertyEditorRegistry> propertyEditorInitializer,
 			BindHandler defaultBindHandler, BindConstructorProvider constructorProvider) {
@@ -226,6 +250,11 @@ public class Binder {
 	 * @return the binding result (never {@code null})
 	 * @see #bind(ConfigurationPropertyName, Bindable, BindHandler)
 	 */
+	// 使用此绑定器的 {@link ConfigurationPropertySource 属性源} 绑定指定的目标 {@link Bindable}。
+	// @param name 要绑定的配置属性名称
+	// @param target 可绑定目标
+	// @param <T> 绑定类型
+	// @return 绑定结果（永不返回 {@code null}）
 	public <T> BindResult<T> bind(String name, Bindable<T> target) {
 		return bind(ConfigurationPropertyName.of(name), target, null);
 	}
@@ -519,6 +548,9 @@ public class Binder {
 	 * {@link ConfigurationPropertySources})
 	 * @return a {@link Binder} instance
 	 */
+	// 从指定的环境创建一个新的 {@link Binder} 实例。
+	// @param environment 环境源（必须已附加 {@link ConfigurationPropertySources}）
+	// @return 一个 {@link Binder} 实例
 	public static Binder get(Environment environment) {
 		return get(environment, null);
 	}
@@ -532,6 +564,10 @@ public class Binder {
 	 * @return a {@link Binder} instance
 	 * @since 2.2.0
 	 */
+	// 从指定的环境创建一个新的 {@link Binder} 实例。
+	// @param environment 环境源（必须已附加 {@link ConfigurationPropertySources}）
+	// @param defaultBindHandler 绑定时未指定时使用的默认绑定处理程序
+	// @return 一个 {@link Binder} 实例
 	public static Binder get(Environment environment, BindHandler defaultBindHandler) {
 		Iterable<ConfigurationPropertySource> sources = ConfigurationPropertySources.get(environment);
 		PropertySourcesPlaceholdersResolver placeholdersResolver = new PropertySourcesPlaceholdersResolver(environment);

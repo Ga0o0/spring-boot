@@ -29,6 +29,8 @@ import org.springframework.core.env.Environment;
  * @author Dave Syer
  * @since 1.0.0
  */
+// 当 {@link SpringApplication} 启动时，且 {@link ApplicationContext} 已完全准备好但尚未刷新时，此事件发布。
+// 此时，bean 定义将被加载，并且 {@link Environment} 已准备就绪，可供使用。
 @SuppressWarnings("serial")
 public class ApplicationPreparedEvent extends SpringApplicationEvent {
 
@@ -40,6 +42,10 @@ public class ApplicationPreparedEvent extends SpringApplicationEvent {
 	 * @param args the arguments the application is running with
 	 * @param context the ApplicationContext about to be refreshed
 	 */
+	// 创建一个新的 {@link ApplicationPreparedEvent} 实例。
+	// @param application 当前应用程序
+	// @param args 应用程序运行时使用的参数
+	// @param context 即将刷新的 ApplicationContext
 	public ApplicationPreparedEvent(SpringApplication application, String[] args,
 			ConfigurableApplicationContext context) {
 		super(application, args);
@@ -50,6 +56,8 @@ public class ApplicationPreparedEvent extends SpringApplicationEvent {
 	 * Return the application context.
 	 * @return the context
 	 */
+	// 返回应用程序上下文。
+	// @return the context
 	public ConfigurableApplicationContext getApplicationContext() {
 		return this.context;
 	}

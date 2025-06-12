@@ -50,6 +50,7 @@ import org.springframework.util.StreamUtils;
  * @author Krzysztof Krason
  * @since 1.2.0
  */
+// 从源文本 {@link Resource} 打印的横幅实现。
 public class ResourceBanner implements Banner {
 
 	private static final Log logger = LogFactory.getLog(ResourceBanner.class);

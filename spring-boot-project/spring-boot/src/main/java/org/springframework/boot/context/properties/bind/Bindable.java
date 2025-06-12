@@ -41,6 +41,9 @@ import org.springframework.util.ObjectUtils;
  * @see Bindable#of(Class)
  * @see Bindable#of(ResolvableType)
  */
+// 可以通过 {@link Binder} 绑定的源。
+//
+// @param <T> 源类型
 public final class Bindable<T> {
 
 	private static final Annotation[] NO_ANNOTATIONS = {};
@@ -189,6 +192,9 @@ public final class Bindable<T> {
 	 * @param existingValue the existing value
 	 * @return an updated {@link Bindable}
 	 */
+	// 创建一个更新的 {@link Bindable} 实例，并传入一个现有值。这意味着将使用 Java Bean 绑定。
+	// @param existingValue 现有值
+	// @return 更新的 {@link Bindable} 实例
 	public Bindable<T> withExistingValue(T existingValue) {
 		Assert.isTrue(
 				existingValue == null || this.type.isArray() || this.boxedType.resolve().isInstance(existingValue),
@@ -247,6 +253,10 @@ public final class Bindable<T> {
 	 * @see #of(ResolvableType)
 	 * @see #withExistingValue(Object)
 	 */
+	// 创建指定实例类型的新 {@link Bindable} 对象，其现有值等于该实例的值。
+	// @param <T> 源类型
+	// @param 实例 实例（不能为 {@code null}）
+	// @return 一个 {@link Bindable} 实例
 	@SuppressWarnings("unchecked")
 	public static <T> Bindable<T> ofInstance(T instance) {
 		Assert.notNull(instance, "Instance must not be null");
@@ -261,6 +271,10 @@ public final class Bindable<T> {
 	 * @return a {@link Bindable} instance
 	 * @see #of(ResolvableType)
 	 */
+	// 创建指定类型的新 {@link Bindable} 对象。
+	// @param <T> 源类型
+	// @param type 类型（不能为 {@code null}）
+	// @return 一个 {@link Bindable} 实例
 	public static <T> Bindable<T> of(Class<T> type) {
 		Assert.notNull(type, "Type must not be null");
 		return of(ResolvableType.forClass(type));

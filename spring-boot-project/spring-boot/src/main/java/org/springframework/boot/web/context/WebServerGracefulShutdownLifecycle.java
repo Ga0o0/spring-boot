@@ -25,6 +25,7 @@ import org.springframework.context.SmartLifecycle;
  * @author Andy Wilkinson
  * @since 2.5.0
  */
+// {@link SmartLifecycle} 触发 {@link WebServer} 正常关机。
 public final class WebServerGracefulShutdownLifecycle implements SmartLifecycle {
 
 	/**

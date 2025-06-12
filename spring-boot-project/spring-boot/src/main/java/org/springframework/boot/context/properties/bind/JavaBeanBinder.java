@@ -47,6 +47,7 @@ import org.springframework.core.ResolvableType;
  * @author Phillip Webb
  * @author Madhura Bhave
  */
+// {@link DataObjectBinder} 用于可变的 Java Bean。
 class JavaBeanBinder implements DataObjectBinder {
 
 	static final JavaBeanBinder INSTANCE = new JavaBeanBinder();

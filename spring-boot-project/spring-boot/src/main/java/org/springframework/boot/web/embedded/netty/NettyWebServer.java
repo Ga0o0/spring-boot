@@ -57,6 +57,8 @@ import org.springframework.util.Assert;
  * @author Andy Wilkinson
  * @since 2.0.0
  */
+// {@link WebServer} 可用于控制 Reactor Netty Web 服务器。
+// 通常，此类应该使用 {@link NettyReactiveWebServerFactory} 创建，而不是直接创建。
 public class NettyWebServer implements WebServer {
 
 	/**

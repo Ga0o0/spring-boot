@@ -23,6 +23,7 @@ package org.springframework.boot;
  * @see ApplicationRunner
  * @see CommandLineRunner
  */
+// Runners 的标记接口。
 interface Runner {
 
 }

@@ -35,6 +35,7 @@ import org.springframework.core.io.ResourceLoader;
  *
  * @author Phillip Webb
  */
+// {@link SpringApplication} 用于打印应用程序横幅的类。
 class SpringApplicationBannerPrinter {
 
 	static final String BANNER_LOCATION_PROPERTY = "spring.banner.location";
@@ -53,12 +54,14 @@ class SpringApplicationBannerPrinter {
 	}
 
 	Banner print(Environment environment, Class<?> sourceClass, Log logger) {
+		// 获取 Banner
 		Banner banner = getBanner(environment);
 		try {
+			// 使用指定的字符集解码字节，将缓冲区内容转换为字符串，并使用 logger 打印
 			logger.info(createStringFromBanner(banner, environment, sourceClass));
 		}
 		catch (UnsupportedEncodingException ex) {
-			logger.warn("Failed to create String for banner", ex);
+			logger.warn("Failed to create String for banner", ex); // 无法创建横幅字符串
 		}
 		return new PrintedBanner(banner, sourceClass);
 	}
@@ -70,6 +73,8 @@ class SpringApplicationBannerPrinter {
 	}
 
 	private Banner getBanner(Environment environment) {
+		// 从 spring.banner.location 获取 Banner；
+		// spring.banner.location 默认值为 banner.txt
 		Banner textBanner = getTextBanner(environment);
 		if (textBanner != null) {
 			return textBanner;
@@ -77,10 +82,14 @@ class SpringApplicationBannerPrinter {
 		if (this.fallbackBanner != null) {
 			return this.fallbackBanner;
 		}
+		// DEFAULT_BANNER = new SpringBootBanner()
 		return DEFAULT_BANNER;
 	}
 
 	private Banner getTextBanner(Environment environment) {
+		// BANNER_LOCATION_PROPERTY = "spring.banner.location"
+		// DEFAULT_BANNER_LOCATION = "banner.txt"
+		// spring.banner.location 默认值为 banner.txt
 		String location = environment.getProperty(BANNER_LOCATION_PROPERTY, DEFAULT_BANNER_LOCATION);
 		Resource resource = this.resourceLoader.getResource(location);
 		try {
@@ -96,11 +105,14 @@ class SpringApplicationBannerPrinter {
 
 	private String createStringFromBanner(Banner banner, Environment environment, Class<?> mainApplicationClass)
 			throws UnsupportedEncodingException {
+		// spring.banner.charset 默认值 UTF-8
 		String charset = environment.getProperty("spring.banner.charset", StandardCharsets.UTF_8.name());
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		try (PrintStream out = new PrintStream(byteArrayOutputStream, false, charset)) {
+			// 将横幅打印到指定的打印流。
 			banner.printBanner(environment, mainApplicationClass, out);
 		}
+		// 使用指定的字符集解码字节，将缓冲区内容转换为字符串。
 		return byteArrayOutputStream.toString(charset);
 	}
 
@@ -108,6 +120,7 @@ class SpringApplicationBannerPrinter {
 	 * Decorator that allows a {@link Banner} to be printed again without needing to
 	 * specify the source class.
 	 */
+	// 装饰器允许再次打印 {@link Banner}，而无需指定源类。
 	private static class PrintedBanner implements Banner {
 
 		private final Banner banner;
@@ -122,6 +135,7 @@ class SpringApplicationBannerPrinter {
 		@Override
 		public void printBanner(Environment environment, Class<?> sourceClass, PrintStream out) {
 			sourceClass = (sourceClass != null) ? sourceClass : this.sourceClass;
+			// 将横幅打印到指定的打印流。
 			this.banner.printBanner(environment, sourceClass, out);
 		}
 

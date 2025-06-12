@@ -50,6 +50,18 @@ import org.springframework.util.StringUtils;
  * @see #of(CharSequence)
  * @see ConfigurationPropertySource
  */
+// 配置属性名称由多个元素组成，元素之间用点分隔。
+// 用户创建的名称可以包含字符 “{@code a-z}”、“{@code 0-9}” 和 “{@code -}”，它们必须小写并以字母数字开头。
+// “{@code -}” 仅用于格式化，例如，“{@code foo-bar}” 和 “{@code foobar}”被视为等效。
+//
+// <p> “{@code [}” 和 “{@code ]}” 字符可用于指示关联索引（例如，{@link Map} 键或 {@link Collection} 索引）。索引名称不受限制，并且区分大小写。
+//
+// <p>以下是一些典型示例：
+// <ul>
+// <li>{@code spring.main.banner-mode} </li>
+// <li>{@code server.hosts[0].name} </li>
+// <li>{@code log[org.springboot].level} </li>
+// </ul>
 public final class ConfigurationPropertyName implements Comparable<ConfigurationPropertyName> {
 
 	private static final String EMPTY_STRING = "";
@@ -574,6 +586,10 @@ public final class ConfigurationPropertyName implements Comparable<Configuration
 	 * @return a {@link ConfigurationPropertyName} instance
 	 * @throws InvalidConfigurationPropertyNameException if the name is not valid
 	 */
+	// 返回指定字符串的 {@link ConfigurationPropertyName}。
+	// @param name 源名称
+	// @return 一个 {@link ConfigurationPropertyName} 实例
+	// @throws InvalidConfigurationPropertyNameException 如果名称无效
 	public static ConfigurationPropertyName of(CharSequence name) {
 		return of(name, false);
 	}
@@ -597,6 +613,11 @@ public final class ConfigurationPropertyName implements Comparable<Configuration
 	 * @throws InvalidConfigurationPropertyNameException if the name is not valid and
 	 * {@code returnNullIfInvalid} is {@code false}
 	 */
+	// 返回指定字符串的 {@link ConfigurationPropertyName}。
+	// @param name 源名称
+	// @param returnNullIfInvalid 如果名称无效，则返回 null
+	// @return 一个 {@link ConfigurationPropertyName} 实例
+	// @throws InvalidConfigurationPropertyNameException 如果名称无效且 {@code returnNullIfInvalid} 为 {@code false}
 	static ConfigurationPropertyName of(CharSequence name, boolean returnNullIfInvalid) {
 		Elements elements = elementsOf(name, returnNullIfInvalid);
 		return (elements != null) ? new ConfigurationPropertyName(elements) : null;

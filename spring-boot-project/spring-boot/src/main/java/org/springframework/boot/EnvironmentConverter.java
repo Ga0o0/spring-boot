@@ -37,6 +37,7 @@ import org.springframework.web.context.support.StandardServletEnvironment;
  * @author Andy Wilkinson
  * @author Madhura Bhave
  */
+// 用于将一种类型的 {@link Environment} 转换为另一种类型的实用程序类。
 final class EnvironmentConverter {
 
 	private static final String CONFIGURABLE_WEB_ENVIRONMENT_CLASS = "org.springframework.web.context.ConfigurableWebEnvironment";
@@ -58,6 +59,8 @@ final class EnvironmentConverter {
 	 * {@code classLoader} during conversion.
 	 * @param classLoader the class loader to use
 	 */
+	// 创建一个新的 {@link EnvironmentConverter}，它将在转换过程中使用给定的 {@code classLoader}。
+	// @param classLoader 要使用的类加载器
 	EnvironmentConverter(ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
@@ -70,6 +73,10 @@ final class EnvironmentConverter {
 	 * @param type the type to convert the Environment to
 	 * @return the converted Environment
 	 */
+	// 将给定的 {@code environment} 转换为给定的 {@link StandardEnvironment} 类型。如果环境类型已经相同，则不进行转换，直接返回原值。
+	// @param environment 要转换的环境
+	// @param type 要转换的环境类型
+	// @return 转换后的环境
 	ConfigurableEnvironment convertEnvironmentIfNecessary(ConfigurableEnvironment environment,
 			Class<? extends ConfigurableEnvironment> type) {
 		if (type.equals(environment.getClass())) {

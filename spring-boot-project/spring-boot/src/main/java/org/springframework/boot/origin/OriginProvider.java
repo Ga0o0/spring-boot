@@ -23,6 +23,7 @@ package org.springframework.boot.origin;
  * @since 2.0.0
  * @see Origin
  */
+// 提供对项目来源的访问的界面。
 @FunctionalInterface
 public interface OriginProvider {
 
@@ -30,6 +31,8 @@ public interface OriginProvider {
 	 * Return the source origin or {@code null} if the origin is not known.
 	 * @return the origin or {@code null}
 	 */
+	// 返回源地址，如果源地址未知，则返回 {@code null}。
+	// @return 源地址或 {@code null}
 	Origin getOrigin();
 
 }

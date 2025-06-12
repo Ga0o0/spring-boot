@@ -57,6 +57,7 @@ import org.springframework.util.ClassUtils;
  * @author Brian Clozel
  * @since 2.0.0
  */
+// {@link ConfigurableServletWebServerFactory} 实现的抽象基类。
 public abstract class AbstractServletWebServerFactory extends AbstractConfigurableWebServerFactory
 		implements ConfigurableServletWebServerFactory {
 

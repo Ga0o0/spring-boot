@@ -22,6 +22,7 @@ package org.springframework.boot.web.server;
  * @author Phillip Webb
  * @since 2.0.0
  */
+// 包含 {@link ErrorPage ErrorPages} 的注册表的接口。
 @FunctionalInterface
 public interface ErrorPageRegistry {
 
@@ -29,6 +30,8 @@ public interface ErrorPageRegistry {
 	 * Adds error pages that will be used when handling exceptions.
 	 * @param errorPages the error pages
 	 */
+	// 添加处理异常时使用的错误页面。
+	// @param errorPages 错误页面
 	void addErrorPages(ErrorPage... errorPages);
 
 }

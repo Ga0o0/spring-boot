@@ -40,6 +40,13 @@ import org.springframework.web.WebApplicationInitializer;
  * @since 1.4.0
  * @see WebApplicationInitializer
  */
+// 此接口用于以编程方式配置 Servlet 3.0+ 版本的 {@link ServletContext 上下文}。
+// 与 {@link WebApplicationInitializer} 不同，实现此接口（且未实现 {@link WebApplicationInitializer}）的类
+// <b>不会被</b> {@link SpringServletContainerInitializer} 检测到，因此不会被 Servlet 容器自动引导。
+//
+// <p>此接口的设计方式与 {@link ServletContainerInitializer} 类似，但其生命周期由 Spring 而非 Servlet 容器管理。
+//
+// <p> 有关配置示例，请参阅 {@link WebApplicationInitializer}。
 @FunctionalInterface
 public interface ServletContextInitializer {
 
@@ -50,6 +57,9 @@ public interface ServletContextInitializer {
 	 * @throws ServletException if any call against the given {@code ServletContext}
 	 * throws a {@code ServletException}
 	 */
+	// 使用初始化所需的任何 servlet、过滤器、侦听器上下文参数和属性来配置给定的 {@link ServletContext}。
+	// @param servletContext 用于初始化的 {@code ServletContext}
+	// @throws ServletException 如果对给定 {@code ServletContext} 的任何调用引发 {@code ServletException}
 	void onStartup(ServletContext servletContext) throws ServletException;
 
 }

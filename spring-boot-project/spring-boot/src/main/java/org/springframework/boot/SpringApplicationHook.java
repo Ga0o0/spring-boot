@@ -27,6 +27,8 @@ package org.springframework.boot;
  * @since 3.0.0
  * @see SpringApplication#withHook
  */
+// 低级钩子，可用于将 {@link SpringApplicationRunListener} 附加到 {@link SpringApplication}，以便观察或修改其行为。
+// 钩子以线程为单位进行管理，以便在多个应用程序并行执行时提供隔离。
 @FunctionalInterface
 public interface SpringApplicationHook {
 
@@ -36,6 +38,9 @@ public interface SpringApplicationHook {
 	 * @param springApplication the source {@link SpringApplication} instance
 	 * @return the {@link SpringApplicationRunListener} to attach
 	 */
+	// 返回应挂接到给定 {@link SpringApplication} 的 {@link SpringApplicationRunListener}。
+	// @param springApplication 源 {@link SpringApplication} 实例
+	// @return 要附加的 {@link SpringApplicationRunListener}
 	SpringApplicationRunListener getRunListener(SpringApplication springApplication);
 
 }

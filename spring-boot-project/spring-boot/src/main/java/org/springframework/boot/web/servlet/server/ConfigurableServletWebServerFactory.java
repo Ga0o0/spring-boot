@@ -43,6 +43,7 @@ import org.springframework.boot.web.servlet.WebListenerRegistry;
  * @see ServletWebServerFactory
  * @see WebServerFactoryCustomizer
  */
+// 可配置的{@link ServletWebServerFactory}。
 public interface ConfigurableServletWebServerFactory
 		extends ConfigurableWebServerFactory, ServletWebServerFactory, WebListenerRegistry {
 

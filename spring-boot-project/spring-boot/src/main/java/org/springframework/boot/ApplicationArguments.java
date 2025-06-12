@@ -25,12 +25,15 @@ import java.util.Set;
  * @author Phillip Webb
  * @since 1.3.0
  */
+// 提供对用于运行 {@link SpringApplication} 的参数的访问。
 public interface ApplicationArguments {
 
 	/**
 	 * Return the raw unprocessed arguments that were passed to the application.
 	 * @return the arguments
 	 */
+	// 返回传递给应用程序的原始未处理参数。
+	// @return 参数
 	String[] getSourceArgs();
 
 	/**
@@ -38,6 +41,8 @@ public interface ApplicationArguments {
 	 * "--foo=bar --debug" would return the values {@code ["foo", "debug"]}.
 	 * @return the option names or an empty set
 	 */
+	// 返回所有选项参数的名称。例如，如果参数为“--foo=bar --debug”，则返回值 {@code ["foo", "debug"]}。
+	// @return 选项名称或空集
 	Set<String> getOptionNames();
 
 	/**
@@ -46,6 +51,9 @@ public interface ApplicationArguments {
 	 * @param name the name to check
 	 * @return {@code true} if the arguments contain an option with the given name
 	 */
+	// 返回从参数解析出的选项参数集合是否包含具有给定名称的选项。
+	// @param name 要检查的名称
+	// @return {@code true} 如果参数包含具有给定名称的选项
 	boolean containsOption(String name);
 
 	/**
@@ -63,12 +71,23 @@ public interface ApplicationArguments {
 	 * @param name the name of the option
 	 * @return a list of option values for the given name
 	 */
+	// 返回与具有给定名称的参数选项关联的值的集合。
+	// <ul>
+	// <li>如果该选项存在且没有参数（例如：“--foo”），则返回一个空集合 ({@code []})</li>
+	// <li>如果该选项存在且只有一个值（例如：“--foo=bar”），则返回一个包含一个元素的集合 ({@code ["bar"]})</li>
+	// <li>如果该选项存在且有多个值（例如：“--foo=bar --foo=baz”），则返回一个包含每个值元素的集合 ({@code ["bar", "baz"]})</li>
+	// <li>如果该选项不存在，则返回 {@code null} </li>
+	// </ul>
+	// @param name 选项的名称
+	// @return 给定名称的选项值列表
 	List<String> getOptionValues(String name);
 
 	/**
 	 * Return the collection of non-option arguments parsed.
 	 * @return the non-option arguments or an empty list
 	 */
+	// 返回已解析的非选项参数集合。
+	// @return 非选项参数或空列表
 	List<String> getNonOptionArgs();
 
 }

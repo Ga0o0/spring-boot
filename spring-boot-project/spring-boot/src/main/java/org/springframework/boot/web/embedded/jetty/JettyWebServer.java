@@ -51,6 +51,7 @@ import org.springframework.util.StringUtils;
  * @since 2.0.0
  * @see JettyReactiveWebServerFactory
  */
+// {@link WebServer} 可用于控制 Jetty Web 服务器。
 public class JettyWebServer implements WebServer {
 
 	private static final Log logger = LogFactory.getLog(JettyWebServer.class);

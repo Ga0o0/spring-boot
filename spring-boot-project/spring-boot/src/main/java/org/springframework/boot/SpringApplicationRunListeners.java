@@ -35,6 +35,7 @@ import org.springframework.util.ReflectionUtils;
  * @author Andy Wilkinson
  * @author Chris Bono
  */
+// {@link SpringApplicationRunListener} 的集合。
 class SpringApplicationRunListeners {
 
 	private final Log log;

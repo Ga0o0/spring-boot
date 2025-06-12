@@ -27,6 +27,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
  * @since 2.0.0
  * @see WebServer
  */
+// 工厂接口可用于创建{@link WebServer}。
 @FunctionalInterface
 public interface ServletWebServerFactory extends WebServerFactory {
 
@@ -40,6 +41,10 @@ public interface ServletWebServerFactory extends WebServerFactory {
 	 * @return a fully configured and started {@link WebServer}
 	 * @see WebServer#stop()
 	 */
+	// 获取一个已完全配置但已暂停的新 {@link WebServer} 实例。
+	// 客户端在调用 {@link WebServer#start()} 之前（即 {@code ApplicationContext} 完全刷新后）无法连接到返回的服务器。
+	// @param 初始化程序 {@link ServletContextInitializer} 应在服务器启动时应用
+	// @return 一个已完全配置并启动的 {@link WebServer}
 	WebServer getWebServer(ServletContextInitializer... initializers);
 
 }

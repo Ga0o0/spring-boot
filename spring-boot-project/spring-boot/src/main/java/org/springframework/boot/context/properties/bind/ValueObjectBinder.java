@@ -60,6 +60,7 @@ import org.springframework.util.Assert;
  * @author Phillip Webb
  * @author Scott Frederick
  */
+// {@link DataObjectBinder} 用于不可变值对象。
 class ValueObjectBinder implements DataObjectBinder {
 
 	private static final Log logger = LogFactory.getLog(ValueObjectBinder.class);

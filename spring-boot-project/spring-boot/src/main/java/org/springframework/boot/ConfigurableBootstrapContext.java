@@ -26,6 +26,7 @@ package org.springframework.boot;
  * @see BootstrapContext
  * @see DefaultBootstrapContext
  */
+// {@link BootstrapContext} 还通过 {@link BootstrapRegistry} 接口提供配置方法。
 public interface ConfigurableBootstrapContext extends BootstrapRegistry, BootstrapContext {
 
 }

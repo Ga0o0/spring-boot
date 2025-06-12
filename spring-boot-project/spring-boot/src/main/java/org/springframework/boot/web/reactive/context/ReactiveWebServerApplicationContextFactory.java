@@ -30,6 +30,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * @author Phillip Webb
  * @author Andy Wilkinson
  */
+// {@link ApplicationContextFactory} 在 {@code spring.factories} 中注册以支持
+// {@link AnnotationConfigReactiveWebServerApplicationContext} 和 {@link ReactiveWebServerApplicationContext}。
 class ReactiveWebServerApplicationContextFactory implements ApplicationContextFactory {
 
 	@Override

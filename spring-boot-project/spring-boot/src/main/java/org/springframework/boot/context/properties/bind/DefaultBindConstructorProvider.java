@@ -35,6 +35,7 @@ import org.springframework.util.ClassUtils;
  * @author Madhura Bhave
  * @author Phillip Webb
  */
+// 默认{@link BindConstructorProvider} 实现。
 class DefaultBindConstructorProvider implements BindConstructorProvider {
 
 	@Override

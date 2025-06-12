@@ -31,6 +31,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Andy Wilkinson
  * @since 2.0.0
  */
+// 应用程序上下文刷新后但在调用任何 {@link ApplicationRunner 应用程序}
+// 和 {@link CommandLineRunner 命令行} 运行器之前发布的事件。
 @SuppressWarnings("serial")
 public class ApplicationStartedEvent extends SpringApplicationEvent {
 
@@ -46,6 +48,11 @@ public class ApplicationStartedEvent extends SpringApplicationEvent {
 	 * @param timeTaken the time taken to start the application
 	 * @since 2.6.0
 	 */
+	// 创建一个新的 {@link ApplicationStartedEvent} 实例。
+	// @param application 当前应用程序
+	// @param args 应用程序运行时使用的参数
+	// @param context 正在创建的上下文
+	// @param timeTaken 启动应用程序所用的时间
 	public ApplicationStartedEvent(SpringApplication application, String[] args, ConfigurableApplicationContext context,
 			Duration timeTaken) {
 		super(application, args);

@@ -91,6 +91,20 @@ import org.springframework.util.StringUtils;
  * @since 2.0.0
  * @see LoggingSystem#get(ClassLoader)
  */
+// 配置 {@link LoggingSystem} 的 {@link ApplicationListener}。如果环境包含 {@code logging.config} 属性，它将用于引导日志系统，否则将使用默认配置。
+// 无论如何，如果环境包含 {@code logging.level.} 条目，则日志级别将自定义，并且可以使用 {@code logging.group} 定义日志组。
+//
+// <p> 当环境包含未设置为 {@code "false"} 的 {@code debug} 或 {@code trace} 属性时
+// （例如，如果您使用 {@literal java -jar myapp.jar [--debug | --trace]} 启动应用程序），
+// 将启用 Spring、Tomcat、Jetty 和 Hibernate 的调试和跟踪日志记录。如果您希望忽略这些属性，可以将 {@link #setParseArgs(boolean) parseArgs} 设置为 {@code false}。
+//
+// <p> 默认情况下，日志输出仅写入控制台。如果需要日志文件，可以使用 {@code logging.file.path} 和 {@code logging.file.name} 属性。
+//
+// <p> 某些系统属性可能会被设置为副作用，如果日志配置支持占位符（例如 log4j 或 logback），这些属性会很有用：
+// <ul>
+// <li>{@code LOG_FILE} 设置为应写入的日志文件的路径值（如果有）。</li>
+// <li>{@code PID} 设置为当前进程 ID 的值（如果可以确定）。</li>
+// </ul>
 public class LoggingApplicationListener implements GenericApplicationListener {
 
 	private static final ConfigurationPropertyName LOGGING_LEVEL = ConfigurationPropertyName.of("logging.level");

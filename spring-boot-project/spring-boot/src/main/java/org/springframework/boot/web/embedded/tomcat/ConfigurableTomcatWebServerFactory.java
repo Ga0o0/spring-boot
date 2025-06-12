@@ -34,6 +34,7 @@ import org.springframework.boot.web.server.ConfigurableWebServerFactory;
  * @see TomcatServletWebServerFactory
  * @see TomcatReactiveWebServerFactory
  */
+// {@link ConfigurableWebServerFactory} 用于 Tomcat 特定的功能。
 public interface ConfigurableTomcatWebServerFactory extends ConfigurableWebServerFactory {
 
 	/**

@@ -25,6 +25,7 @@ package org.springframework.boot;
  * @see SpringApplication#addBootstrapRegistryInitializer(BootstrapRegistryInitializer)
  * @see BootstrapRegistry
  */
+// 回调接口可用于在使用 {@link BootstrapRegistry} 之前初始化它。
 @FunctionalInterface
 public interface BootstrapRegistryInitializer {
 
@@ -32,6 +33,8 @@ public interface BootstrapRegistryInitializer {
 	 * Initialize the given {@link BootstrapRegistry} with any required registrations.
 	 * @param registry the registry to initialize
 	 */
+	// 使用任何所需的注册初始化给定的 {@link BootstrapRegistry}。
+	// @param registry 需要初始化的注册表
 	void initialize(BootstrapRegistry registry);
 
 }

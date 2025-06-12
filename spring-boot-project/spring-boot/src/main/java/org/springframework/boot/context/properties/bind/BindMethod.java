@@ -22,16 +22,19 @@ package org.springframework.boot.context.properties.bind;
  * @author Andy Wilkinson
  * @since 3.0.8
  */
+// 配置属性绑定方法。
 public enum BindMethod {
 
 	/**
 	 * Java Bean using getter/setter binding.
 	 */
+	// 使用 getter/setter 绑定的 Java Bean。
 	JAVA_BEAN,
 
 	/**
 	 * Value object using constructor binding.
 	 */
+	// 使用构造函数绑定的值对象。
 	VALUE_OBJECT
 
 }

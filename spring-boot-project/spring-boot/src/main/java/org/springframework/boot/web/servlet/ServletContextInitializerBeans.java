@@ -59,6 +59,11 @@ import org.springframework.util.MultiValueMap;
  * @author Brian Clozel
  * @since 1.4.0
  */
+// 从 {@link ListableBeanFactory} 获取的 {@link ServletContextInitializer} 集合。
+// 包含所有 {@link ServletContextInitializer} Bean，以及适配的 {@link Servlet}、{@link Filter} 和某些 {@link EventListener} Bean。
+//
+// <p> 已对项目进行排序，适配的 Bean 位于顶部（{@link Servlet}、{@link Filter}，然后是 {@link EventListener}），直接 {@link ServletContextInitializer} Bean 位于末尾。
+// 使用 {@link AnnotationAwareOrderComparator} 在这些组内进行进一步排序。
 public class ServletContextInitializerBeans extends AbstractCollection<ServletContextInitializer> {
 
 	private static final String DISPATCHER_SERVLET_NAME = "dispatcherServlet";

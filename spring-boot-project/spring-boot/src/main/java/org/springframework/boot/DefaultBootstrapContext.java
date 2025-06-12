@@ -33,6 +33,7 @@ import org.springframework.util.Assert;
  * @author Phillip Webb
  * @since 2.4.0
  */
+// 默认 {@link ConfigurableBootstrapContext} 实现。
 public class DefaultBootstrapContext implements ConfigurableBootstrapContext {
 
 	private final Map<Class<?>, InstanceSupplier<?>> instanceSuppliers = new HashMap<>();
@@ -129,7 +130,10 @@ public class DefaultBootstrapContext implements ConfigurableBootstrapContext {
 	 * {@link ApplicationContext} is prepared.
 	 * @param applicationContext the prepared context
 	 */
+	// 当 {@link BootstrapContext} 关闭且 {@link ApplicationContext} 已准备好时调用的方法。
+	// @param applicationContext 准备好的上下文
 	public void close(ConfigurableApplicationContext applicationContext) {
+		// 使用 DefaultBootstrapContext#events 发布事件 BootstrapContextClosedEvent
 		this.events.multicastEvent(new BootstrapContextClosedEvent(this, applicationContext));
 	}
 

@@ -26,6 +26,7 @@ import org.springframework.core.env.StandardEnvironment;
  *
  * @author Phillip Webb
  */
+// {@link StandardEnvironment} 在典型的 {@link SpringApplication} 中典型使用。
 class ApplicationEnvironment extends StandardEnvironment {
 
 	@Override

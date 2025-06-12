@@ -57,6 +57,8 @@ import org.springframework.util.StringUtils;
  * @author Brian Clozel
  * @since 2.0.0
  */
+// {@link WebServer} 可用于控制 Undertow Web 服务器。
+// 通常，此类应使用 {@link UndertowReactiveWebServerFactory} 创建，而不是直接创建。
 public class UndertowWebServer implements WebServer {
 
 	private static final Log logger = LogFactory.getLog(UndertowWebServer.class);

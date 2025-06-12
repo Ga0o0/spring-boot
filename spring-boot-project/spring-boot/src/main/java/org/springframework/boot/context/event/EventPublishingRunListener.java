@@ -51,6 +51,9 @@ import org.springframework.util.ErrorHandler;
  * @author Brian Clozel
  * @author Chris Bono
  */
+// {@link SpringApplicationRunListener} 用于发布 {@link SpringApplicationEvent}。
+// <p>
+// 使用内部 {@link ApplicationEventMulticaster} 来处理在上下文实际刷新之前触发的事件。
 class EventPublishingRunListener implements SpringApplicationRunListener, Ordered {
 
 	private final SpringApplication application;
@@ -72,6 +75,7 @@ class EventPublishingRunListener implements SpringApplicationRunListener, Ordere
 
 	@Override
 	public void starting(ConfigurableBootstrapContext bootstrapContext) {
+		// ApplicationStartingEvent
 		multicastInitialEvent(new ApplicationStartingEvent(bootstrapContext, this.application, this.args));
 	}
 

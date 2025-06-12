@@ -28,6 +28,7 @@ import org.springframework.boot.context.properties.source.ConfigurationPropertyN
  * @see JavaBeanBinder
  * @see ValueObjectBinder
  */
+// {@link Binder} 用于绑定数据对象的内部策略。数据对象是由递归绑定的属性组成的对象。
 interface DataObjectBinder {
 
 	/**
@@ -40,6 +41,13 @@ interface DataObjectBinder {
 	 * @param propertyBinder property binder
 	 * @return a bound instance or {@code null}
 	 */
+	// 如果 {@link DataObjectBinder} 不支持指定的 {@link Bindable}，则返回绑定实例或 {@code null}。
+	// @param <T> 源类型
+	// @param name 被绑定的名称
+	// @param target 要绑定的可绑定对象
+	// @param context 绑定上下文
+	// @param propertyBinder 属性绑定器
+	// @return 绑定实例或 {@code null}
 	<T> T bind(ConfigurationPropertyName name, Bindable<T> target, Context context,
 			DataObjectPropertyBinder propertyBinder);
 
@@ -51,6 +59,11 @@ interface DataObjectBinder {
 	 * @param context the bind context
 	 * @return the created instance
 	 */
+	// 如果 {@link DataObjectBinder} 不支持指定的 {@link Bindable}，则返回新创建的实例或 {@code null}。
+	// @param <T> 源类型
+	// @param target 要创建的可绑定对象
+	// @param context 绑定上下文
+	// @return 已创建的实例
 	<T> T create(Bindable<T> target, Context context);
 
 	/**
@@ -61,6 +74,11 @@ interface DataObjectBinder {
 	 * @param context the bind context
 	 * @param exception the exception about to be thrown
 	 */
+	// 当无法创建实例时，可用于添加额外抑制异常的回调函数。
+	// @param <T> 源类型
+	// @param target 正在创建的可绑定对象
+	// @param context 绑定上下文
+	// @param exception 即将抛出的异常
 	default <T> void onUnableToCreateInstance(Bindable<T> target, Context context, RuntimeException exception) {
 	}
 

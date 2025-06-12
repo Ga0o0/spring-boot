@@ -36,6 +36,10 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
  * @author Chris Bono
  * @since 1.0.0
  */
+// {@link SpringApplication} {@code run} 方法的监听器。
+// {@link SpringApplicationRunListener} 通过 {@link SpringFactoriesLoader} 加载，并应声明一个公共构造函数，
+// 该构造函数接受一个 {@link SpringApplication} 实例和一个 {@code String[]} 参数。
+// 每次运行都会创建一个新的 {@link SpringApplicationRunListener} 实例。
 public interface SpringApplicationRunListener {
 
 	/**
@@ -43,6 +47,8 @@ public interface SpringApplicationRunListener {
 	 * early initialization.
 	 * @param bootstrapContext the bootstrap context
 	 */
+	// 在 run 方法首次启动时立即调用。可用于非常早期的初始化。
+	// @param bootstrapContext 引导上下文
 	default void starting(ConfigurableBootstrapContext bootstrapContext) {
 	}
 
@@ -52,6 +58,9 @@ public interface SpringApplicationRunListener {
 	 * @param bootstrapContext the bootstrap context
 	 * @param environment the environment
 	 */
+	// 在环境准备好后，但在 {@link ApplicationContext} 创建之前调用。
+	// @param bootstrapContext 引导上下文
+	// @param environment 环境
 	default void environmentPrepared(ConfigurableBootstrapContext bootstrapContext,
 			ConfigurableEnvironment environment) {
 	}
@@ -61,6 +70,8 @@ public interface SpringApplicationRunListener {
 	 * before sources have been loaded.
 	 * @param context the application context
 	 */
+	// 在 {@link ApplicationContext} 创建并准备好后，但在源加载之前调用。
+	// @param context 应用程序上下文
 	default void contextPrepared(ConfigurableApplicationContext context) {
 	}
 
@@ -69,6 +80,8 @@ public interface SpringApplicationRunListener {
 	 * refreshed.
 	 * @param context the application context
 	 */
+	// 在应用程序上下文加载后，但在刷新之前调用。
+	// @param context 应用程序上下文
 	default void contextLoaded(ConfigurableApplicationContext context) {
 	}
 
@@ -80,6 +93,9 @@ public interface SpringApplicationRunListener {
 	 * @param timeTaken the time taken to start the application or {@code null} if unknown
 	 * @since 2.6.0
 	 */
+	// 上下文已刷新，应用已启动，但 {@link CommandLineRunner CommandLineRunners} 和 {@link ApplicationRunner ApplicationRunners} 尚未调用。
+	// @param context 应用上下文。
+	// @param timeTaken 启动应用所用时间，如果未知，则返回 {@code null}
 	default void started(ConfigurableApplicationContext context, Duration timeTaken) {
 	}
 
@@ -92,6 +108,9 @@ public interface SpringApplicationRunListener {
 	 * unknown
 	 * @since 2.6.0
 	 */
+	// 在 run 方法完成之前立即调用，此时应用上下文已刷新，并且所有 {@link CommandLineRunner CommandLineRunners} 和 {@link ApplicationRunner ApplicationRunners} 均已调用。
+	// @param context 应用上下文。
+	// @param timeTaken 应用程序准备就绪所需的时间，如果未知则返回 {@code null}
 	default void ready(ConfigurableApplicationContext context, Duration timeTaken) {
 	}
 
@@ -102,6 +121,9 @@ public interface SpringApplicationRunListener {
 	 * @param exception the failure
 	 * @since 2.0.0
 	 */
+	// 在运行应用程序时发生故障时调用。
+	// @param context 应用程序上下文，如果在创建上下文之前发生故障则返回 {@code null}
+	// @param exception 失败
 	default void failed(ConfigurableApplicationContext context, Throwable exception) {
 	}
 

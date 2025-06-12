@@ -37,6 +37,8 @@ import org.springframework.util.StringUtils;
  * @since 2.0.0
  * @see UndertowServletWebServerFactory
  */
+// {@link WebServer} 可用于控制嵌入式 Undertow 服务器。
+// 通常，此类应使用 {@link UndertowServletWebServerFactory} 创建，而不是直接创建。
 public class UndertowServletWebServer extends UndertowWebServer {
 
 	private final String contextPath;

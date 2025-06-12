@@ -24,12 +24,15 @@ import jakarta.servlet.annotation.WebListener;
  * @author Andy Wilkinson
  * @since 2.4.0
  */
+// 包含 {@link WebListener @WebListeners} 的注册表。
 public interface WebListenerRegistry {
 
 	/**
 	 * Adds web listeners that will be registered with the servlet container.
 	 * @param webListenerClassNames the class names of the web listeners
 	 */
+	// 添加将在 servlet 容器中注册的 Web 监听器。
+	// @param webListenerClassNames Web 监听器的类名
 	void addWebListeners(String... webListenerClassNames);
 
 }

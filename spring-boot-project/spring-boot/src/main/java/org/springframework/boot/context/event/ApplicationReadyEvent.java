@@ -32,6 +32,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @since 1.3.0
  * @see ApplicationFailedEvent
  */
+// 事件尽可能晚地发布，以表明应用程序已准备好处理请求。
+// 事件的来源是 {@link SpringApplication} 本身，但请注意不要修改其内部状态，因为届时所有初始化步骤都已完成。
 @SuppressWarnings("serial")
 public class ApplicationReadyEvent extends SpringApplicationEvent {
 
@@ -47,6 +49,11 @@ public class ApplicationReadyEvent extends SpringApplicationEvent {
 	 * @param timeTaken the time taken to get the application ready to service requests
 	 * @since 2.6.0
 	 */
+	// 创建一个新的 {@link ApplicationReadyEvent} 实例。
+	// @param application 当前应用程序
+	// @param args 应用程序运行时使用的参数
+	// @param context 正在创建的上下文
+	// @param timeTaken 使应用程序准备好处理请求所需的时间
 	public ApplicationReadyEvent(SpringApplication application, String[] args, ConfigurableApplicationContext context,
 			Duration timeTaken) {
 		super(application, args);
@@ -58,6 +65,8 @@ public class ApplicationReadyEvent extends SpringApplicationEvent {
 	 * Return the application context.
 	 * @return the context
 	 */
+	// 返回应用上下文。
+	// @return 上下文
 	public ConfigurableApplicationContext getApplicationContext() {
 		return this.context;
 	}
@@ -68,6 +77,8 @@ public class ApplicationReadyEvent extends SpringApplicationEvent {
 	 * @return the time taken to be ready to service requests
 	 * @since 2.6.0
 	 */
+	// 返回应用准备好处理请求所需的时间，如果未知则返回 {@code null}。
+	// @return 准备好处理请求所需的时间
 	public Duration getTimeTaken() {
 		return this.timeTaken;
 	}

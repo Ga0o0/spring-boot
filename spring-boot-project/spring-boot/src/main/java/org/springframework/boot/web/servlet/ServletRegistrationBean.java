@@ -48,6 +48,14 @@ import org.springframework.util.StringUtils;
  * @see ServletContextInitializer
  * @see ServletContext#addServlet(String, Servlet)
  */
+// {@link ServletContextInitializer} 用于在 Servlet 3.0+ 容器中注册 {@link Servlet}。
+// 类似于 {@link ServletContext#addServlet(String, Servlet) 注册} 功能，但采用 Spring Bean 友好设计。
+//
+// <p> 调用 {@link #onStartup} 之前必须指定 {@link #setServlet(Servlet) servlet}。
+// URL 映射可以使用 {@link #setUrlMappings} 进行配置，或者在映射到“/”时省略
+// （除非 {@link #ServletRegistrationBean(Servlet, boolean, String...) alwaysMapUrl} 设置为 {@code false}）。如果未指定，则 servlet 名称将被推断。
+//
+// @param <T> 待注册 {@link Servlet} 的类型
 public class ServletRegistrationBean<T extends Servlet> extends DynamicRegistrationBean<ServletRegistration.Dynamic> {
 
 	private static final String[] DEFAULT_MAPPINGS = { "/*" };

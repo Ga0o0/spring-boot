@@ -38,6 +38,7 @@ import org.springframework.util.ConcurrentReferenceHashMap.ReferenceType;
  *
  * @author Phillip Webb
  */
+// 适配器将 Spring 的 {@link MutablePropertySources} 转换为 {@link ConfigurationPropertySource ConfigurationPropertySources}。
 class SpringConfigurationPropertySources implements Iterable<ConfigurationPropertySource> {
 
 	private final Iterable<PropertySource<?>> sources;

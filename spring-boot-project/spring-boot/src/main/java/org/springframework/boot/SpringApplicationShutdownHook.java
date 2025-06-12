@@ -45,6 +45,8 @@ import org.springframework.util.Assert;
  * @author Phillip Webb
  * @author Brian Clozel
  */
+// 一个 {@link Runnable} 对象，用作 {@link Runtime#addShutdownHook(Thread) 关闭钩子}，用于执行 Spring Boot 应用的优雅关闭。
+// 此钩子会跟踪已注册的应用上下文以及通过 {@link SpringApplication#getShutdownHandlers()} 注册的任何操作。
 class SpringApplicationShutdownHook implements Runnable {
 
 	private static final int SLEEP = 50;
@@ -239,6 +241,7 @@ class SpringApplicationShutdownHook implements Runnable {
 	/**
 	 * {@link ApplicationListener} to track closed contexts.
 	 */
+	// {@link ApplicationListener} 跟踪封闭的上下文。
 	private final class ApplicationContextClosedListener implements ApplicationListener<ContextClosedEvent> {
 
 		@Override
@@ -248,6 +251,8 @@ class SpringApplicationShutdownHook implements Runnable {
 			// active. Rather than just removing the context, we add it to a {@code
 			// closedContexts} set. This is weak set so that the context can be GC'd once
 			// the {@code close()} method returns.
+			// --> 译文：ContextClosedEvent 在调用 {@code close()} 时触发，如果调用发生在其他线程，上下文可能仍然处于活动状态。
+			// 我们不会直接移除上下文，而是将其添加到 {@code closedContexts} 集合中。这是一个弱集合，因此一旦 {@code close()} 方法返回，上下文就可以被 GC 回收。
 			synchronized (SpringApplicationShutdownHook.class) {
 				ApplicationContext applicationContext = event.getApplicationContext();
 				SpringApplicationShutdownHook.this.contexts.remove(applicationContext);

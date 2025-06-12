@@ -26,6 +26,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @since 1.0.0
  * @see ApplicationReadyEvent
  */
+// {@link SpringApplication} 启动失败时发布的事件。
 @SuppressWarnings("serial")
 public class ApplicationFailedEvent extends SpringApplicationEvent {
 
@@ -40,6 +41,11 @@ public class ApplicationFailedEvent extends SpringApplicationEvent {
 	 * @param context the context that was being created (maybe null)
 	 * @param exception the exception that caused the error
 	 */
+	// 创建一个新的 {@link ApplicationFailedEvent} 实例。
+	// @param application 当前应用程序
+	// @param args 应用程序运行时使用的参数
+	// @param context 正在创建的上下文（可能为 null）
+	// @param exception 导致错误的异常
 	public ApplicationFailedEvent(SpringApplication application, String[] args, ConfigurableApplicationContext context,
 			Throwable exception) {
 		super(application, args);
@@ -51,6 +57,8 @@ public class ApplicationFailedEvent extends SpringApplicationEvent {
 	 * Return the application context.
 	 * @return the context
 	 */
+	// 返回应用上下文。
+	// @return 上下文
 	public ConfigurableApplicationContext getApplicationContext() {
 		return this.context;
 	}
@@ -59,6 +67,8 @@ public class ApplicationFailedEvent extends SpringApplicationEvent {
 	 * Return the exception that caused the failure.
 	 * @return the exception
 	 */
+	// 返回导致失败的异常。
+	// @return 异常
 	public Throwable getException() {
 		return this.exception;
 	}

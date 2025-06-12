@@ -37,6 +37,9 @@ import java.util.Set;
  * @see OriginProvider
  * @see TextResourceOrigin
  */
+// 唯一表示项目来源的接口。例如，从 {@link File} 加载的项目可能具有由文件名以及行号/列号组成的来源。
+//
+// <p> 实现必须提供合理的 {@code hashCode()}、{@code equals(...)} 和 {@code #toString()} 实现。
 public interface Origin {
 
 	/**
@@ -46,6 +49,8 @@ public interface Origin {
 	 * @since 2.4.0
 	 * @see Origin#parentsFrom(Object)
 	 */
+	// 如果存在父源，则返回此实例的父源。父源提供创建此实例的项目的源。
+	// @return 父源或 {@code null}
 	default Origin getParent() {
 		return null;
 	}
@@ -56,6 +61,9 @@ public interface Origin {
 	 * @param source the source object or {@code null}
 	 * @return an optional {@link Origin}
 	 */
+	// 查找对象的来源 {@link Origin}。检查源对象是否为 {@link Origin} 或 {@link OriginProvider}，并搜索异常堆栈。
+	// @param source 源对象或 {@code null}
+	// @return 可选的 {@link Origin}
 	static Origin from(Object source) {
 		if (source instanceof Origin origin) {
 			return origin;
@@ -80,6 +88,11 @@ public interface Origin {
 	 * origin, or no parent
 	 * @since 2.4.0
 	 */
+	// 查找对象来源 {@link Origin} 的父对象。
+	// 检查源对象是否为 {@link Origin} 或 {@link OriginProvider}，并搜索异常堆栈。
+	// 提供所有父对象的列表，直至根 {@link Origin}，从最直接的父对象开始。
+	// @param source 源对象或 {@code null}
+	// @return 返回父对象列表；如果源对象为 {@code null}、无来源或无父对象，则返回空列表
 	static List<Origin> parentsFrom(Object source) {
 		Origin origin = from(source);
 		if (origin == null) {

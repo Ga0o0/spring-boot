@@ -26,6 +26,7 @@ import org.springframework.context.SmartLifecycle;
  *
  * @author Andy Wilkinson
  */
+// {@link SmartLifecycle} 在 {@link ServletWebServerApplicationContext} 中启动和停止 {@link WebServer}。
 class WebServerStartStopLifecycle implements SmartLifecycle {
 
 	private final ServletWebServerApplicationContext applicationContext;

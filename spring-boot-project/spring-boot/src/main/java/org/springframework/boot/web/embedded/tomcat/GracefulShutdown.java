@@ -38,6 +38,7 @@ import org.springframework.boot.web.server.GracefulShutdownResult;
  *
  * @author Andy Wilkinson
  */
+// 处理 Tomcat 正常关闭。
 final class GracefulShutdown {
 
 	private static final Log logger = LogFactory.getLog(GracefulShutdown.class);

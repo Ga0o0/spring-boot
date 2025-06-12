@@ -44,6 +44,7 @@ import org.springframework.util.Assert;
  * @author Scott Frederick
  * @since 2.0.0
  */
+// {@link ConfigurableWebServerFactory} 实现的抽象基类。
 public abstract class AbstractConfigurableWebServerFactory implements ConfigurableWebServerFactory {
 
 	private int port = 8080;
@@ -83,6 +84,8 @@ public abstract class AbstractConfigurableWebServerFactory implements Configurab
 	 * The port that the web server listens on.
 	 * @return the port
 	 */
+	// Web 服务器监听的端口。
+	// @return 端口
 	public int getPort() {
 		return this.port;
 	}
@@ -186,6 +189,8 @@ public abstract class AbstractConfigurableWebServerFactory implements Configurab
 	 * @return the shutdown configuration
 	 * @since 2.3.0
 	 */
+	// 返回将应用于服务器的关闭配置。
+	// @return 关闭配置
 	public Shutdown getShutdown() {
 		return this.shutdown;
 	}
@@ -210,6 +215,9 @@ public abstract class AbstractConfigurableWebServerFactory implements Configurab
 	 * @param prefix server name
 	 * @return the temp dir for given server.
 	 */
+	// 返回指定 Web 服务器的绝对临时目录。
+	// @param prefix 服务器名称
+	// @return 指定服务器的临时目录。
 	protected final File createTempDir(String prefix) {
 		try {
 			File tempDir = Files.createTempDirectory(prefix + "." + getPort() + ".").toFile();
@@ -217,6 +225,7 @@ public abstract class AbstractConfigurableWebServerFactory implements Configurab
 			return tempDir;
 		}
 		catch (IOException ex) {
+			// 无法创建 tempDir。java.io.tmpdir 设置为 System.getProperty("java.io.tmpdir")
 			throw new WebServerException(
 					"Unable to create tempDir. java.io.tmpdir is set to " + System.getProperty("java.io.tmpdir"), ex);
 		}

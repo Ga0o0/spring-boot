@@ -52,6 +52,7 @@ import org.springframework.util.CollectionUtils;
  * @author Phillip Webb
  * @author Andy Wilkinson
  */
+// 用于处理绑定过程中所需的任何转换的实用程序。此类不是线程安全的，因此每次顶级绑定都会创建一个新实例。
 final class BindConverter {
 
 	private static BindConverter sharedInstance;

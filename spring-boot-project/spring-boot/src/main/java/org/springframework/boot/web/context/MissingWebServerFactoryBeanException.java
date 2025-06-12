@@ -28,6 +28,7 @@ import org.springframework.boot.web.server.WebServerFactory;
  * @author Andy Wilkinson
  * @since 2.7.0
  */
+// 当 {@link WebServerApplicationContext} 中未定义所需类型的 {@link WebServerFactory} bean 时抛出异常。
 public class MissingWebServerFactoryBeanException extends NoSuchBeanDefinitionException {
 
 	private final WebApplicationType webApplicationType;

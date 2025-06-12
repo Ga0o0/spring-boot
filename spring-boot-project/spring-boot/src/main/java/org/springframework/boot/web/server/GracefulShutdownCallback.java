@@ -23,6 +23,7 @@ package org.springframework.boot.web.server;
  * @since 2.3.0
  * @see WebServer#shutDownGracefully(GracefulShutdownCallback)
  */
+// 正常关机请求结果的回调。
 @FunctionalInterface
 public interface GracefulShutdownCallback {
 
@@ -30,6 +31,8 @@ public interface GracefulShutdownCallback {
 	 * Graceful shutdown has completed with the given {@code result}.
 	 * @param result the result of the shutdown
 	 */
+	// 优雅关机已完成，并返回给定的 {@code result}。
+	// @param result 关机结果
 	void shutdownComplete(GracefulShutdownResult result);
 
 }

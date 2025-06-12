@@ -30,6 +30,7 @@ import org.springframework.boot.web.server.ConfigurableWebServerFactory;
  * @see JettyServletWebServerFactory
  * @see JettyReactiveWebServerFactory
  */
+// {@link ConfigurableWebServerFactory} 用于 Jetty 特定的功能。
 public interface ConfigurableJettyWebServerFactory extends ConfigurableWebServerFactory {
 
 	/**

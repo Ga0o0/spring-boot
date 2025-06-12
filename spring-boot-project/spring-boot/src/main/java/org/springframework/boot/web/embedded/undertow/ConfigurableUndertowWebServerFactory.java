@@ -31,6 +31,7 @@ import org.springframework.boot.web.server.ConfigurableWebServerFactory;
  * @see UndertowServletWebServerFactory
  * @see UndertowReactiveWebServerFactory
  */
+// {@link ConfigurableWebServerFactory} 用于 Undertow 特定的功能。
 public interface ConfigurableUndertowWebServerFactory extends ConfigurableWebServerFactory {
 
 	/**

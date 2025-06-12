@@ -30,6 +30,7 @@ import org.springframework.boot.ssl.SslBundles;
  * @since 2.0.0
  * @see ErrorPageRegistry
  */
+// 可配置的{@link WebServerFactory}。
 public interface ConfigurableWebServerFactory extends WebServerFactory, ErrorPageRegistry {
 
 	/**
@@ -38,24 +39,32 @@ public interface ConfigurableWebServerFactory extends WebServerFactory, ErrorPag
 	 * context but not have it listen to any port).
 	 * @param port the port to set
 	 */
+	// 设置 Web 服务器应监听的端口。如果未指定，则使用端口“8080”。使用 port -1 可禁用自动启动（即启动 Web 应用上下文但不监听任何端口）。
+	// @param port 要设置的端口
 	void setPort(int port);
 
 	/**
 	 * Sets the specific network address that the server should bind to.
 	 * @param address the address to set (defaults to {@code null})
 	 */
+	// 设置服务器应绑定到的特定网络地址。
+	// @param address 要设置的地址（默认为 {@code null}）
 	void setAddress(InetAddress address);
 
 	/**
 	 * Sets the error pages that will be used when handling exceptions.
 	 * @param errorPages the error pages
 	 */
+	// 设置处理异常时将使用的错误页面。
+	// @param errorPages 错误页面
 	void setErrorPages(Set<? extends ErrorPage> errorPages);
 
 	/**
 	 * Sets the SSL configuration that will be applied to the server's default connector.
 	 * @param ssl the SSL configuration
 	 */
+	// 设置将应用于服务器默认连接器的 SSL 配置。
+	// @param ssl SSL 配置
 	void setSsl(Ssl ssl);
 
 	/**
@@ -63,12 +72,16 @@ public interface ConfigurableWebServerFactory extends WebServerFactory, ErrorPag
 	 * @param sslBundles the SSL bundles
 	 * @since 3.1.0
 	 */
+	// 设置可用于配置 SSL 连接的 SSL 包。
+	// @param sslBundles SSL 包
 	void setSslBundles(SslBundles sslBundles);
 
 	/**
 	 * Sets the HTTP/2 configuration that will be applied to the server.
 	 * @param http2 the HTTP/2 configuration
 	 */
+	// 设置将应用于服务器的 HTTP/2 配置。
+	// @param http2 HTTP/2 配置
 	void setHttp2(Http2 http2);
 
 	/**
@@ -76,12 +89,16 @@ public interface ConfigurableWebServerFactory extends WebServerFactory, ErrorPag
 	 * connector.
 	 * @param compression the compression configuration
 	 */
+	// 设置将应用于服务器默认连接器的压缩配置。
+	// @param compression 压缩配置
 	void setCompression(Compression compression);
 
 	/**
 	 * Sets the server header value.
 	 * @param serverHeader the server header value
 	 */
+	// 设置服务器标头值。
+	// @param serverHeader 服务器标头值
 	void setServerHeader(String serverHeader);
 
 	/**
@@ -89,6 +106,8 @@ public interface ConfigurableWebServerFactory extends WebServerFactory, ErrorPag
 	 * @param shutdown the shutdown configuration
 	 * @since 2.3.0
 	 */
+	// 设置将应用于服务器的关闭配置。
+	// @param shutdown 关闭配置
 	default void setShutdown(Shutdown shutdown) {
 
 	}

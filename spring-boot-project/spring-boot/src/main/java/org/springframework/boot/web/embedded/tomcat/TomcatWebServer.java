@@ -57,6 +57,8 @@ import org.springframework.util.StringUtils;
  * @author Kristine Jetzke
  * @since 2.0.0
  */
+// {@link WebServer} 可用于控制 Tomcat Web 服务器。
+// 通常，此类应使用 {@link TomcatReactiveWebServerFactory} 或 {@link TomcatServletWebServerFactory} 创建，而不是直接创建。
 public class TomcatWebServer implements WebServer {
 
 	private static final Log logger = LogFactory.getLog(TomcatWebServer.class);
@@ -99,6 +101,10 @@ public class TomcatWebServer implements WebServer {
 	 * @param shutdown type of shutdown supported by the server
 	 * @since 2.3.0
 	 */
+	// 创建一个新的 {@link TomcatWebServer} 实例。
+	// @param tomcat 底层 Tomcat 服务器
+	// @param autoStart 是否启动服务器
+	// @param shutdown 服务器支持的关闭类型
 	public TomcatWebServer(Tomcat tomcat, boolean autoStart, Shutdown shutdown) {
 		Assert.notNull(tomcat, "Tomcat Server must not be null");
 		this.tomcat = tomcat;
@@ -111,39 +117,43 @@ public class TomcatWebServer implements WebServer {
 		logger.info("Tomcat initialized with " + getPortsDescription(false));
 		synchronized (this.monitor) {
 			try {
+				// 将 InstanceId 添加到 EngineName
 				addInstanceIdToEngineName();
 
-				Context context = findContext();
+				Context context = findContext(); // 查找上下文
 				context.addLifecycleListener((event) -> {
 					if (context.equals(event.getSource()) && Lifecycle.START_EVENT.equals(event.getType())) {
 						// Remove service connectors so that protocol binding doesn't
 						// happen when the service is started.
+						// --> 译文：删除服务连接器，以便在服务启动时不会发生协议绑定。
 						removeServiceConnectors();
 					}
 				});
 
-				disableBindOnInit();
+				disableBindOnInit(); // disable bindOnInit
 
-				// Start the server to trigger initialization listeners
+				// Start the server to trigger initialization listeners --> 译文：启动服务器以触发初始化监听器
 				this.tomcat.start();
 
-				// We can re-throw failure exception directly in the main thread
+				// We can re-throw failure exception directly in the main thread --> 译文：我们可以在主线程中直接重新抛出失败异常
 				rethrowDeferredStartupExceptions();
 
 				try {
 					ContextBindings.bindClassLoader(context, context.getNamingToken(), getClass().getClassLoader());
 				}
 				catch (NamingException ex) {
-					// Naming is not enabled. Continue
+					// Naming is not enabled. Continue --> 译文：命名功能未启用。继续
 				}
 
 				// Unlike Jetty, all Tomcat threads are daemon threads. We create a
 				// blocking non-daemon to stop immediate shutdown
+				// --> 译文：与 Jetty 不同，所有 Tomcat 线程都是守护线程。我们创建一个阻塞的非守护线程来阻止立即关闭
+				// 开启线程调用 tomcat.getServer().await()
 				startNonDaemonAwaitThread();
 			}
 			catch (Exception ex) {
-				stopSilently();
-				destroySilently();
+				stopSilently();	// tomcat.stop()
+				destroySilently(); // tomcat.destroy()
 				throw new WebServerException("Unable to start embedded Tomcat", ex);
 			}
 		}

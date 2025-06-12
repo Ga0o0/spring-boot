@@ -42,6 +42,7 @@ import org.springframework.util.ClassUtils;
  * @author Phillip Webb
  * @author Andy Wilkinson
  */
+// Tomcat {@link StandardContext} 由 {@link TomcatWebServer} 使用，以支持延迟初始化。
 class TomcatEmbeddedContext extends StandardContext {
 
 	private TomcatStarter starter;

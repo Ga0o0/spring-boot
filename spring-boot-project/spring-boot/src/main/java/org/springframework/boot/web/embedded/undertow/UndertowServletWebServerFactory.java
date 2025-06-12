@@ -89,6 +89,9 @@ import org.springframework.util.CollectionUtils;
  * @since 2.0.0
  * @see UndertowServletWebServer
  */
+// {@link ServletWebServerFactory} 可用于创建 {@link UndertowServletWebServer}。
+// <p>
+// 除非另有明确配置，否则工厂将创建在端口 8080 上监听 HTTP 请求的服务器。
 public class UndertowServletWebServerFactory extends AbstractServletWebServerFactory
 		implements ConfigurableUndertowWebServerFactory, ResourceLoaderAware {
 
