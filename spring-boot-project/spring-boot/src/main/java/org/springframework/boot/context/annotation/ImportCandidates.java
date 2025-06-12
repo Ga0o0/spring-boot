@@ -40,6 +40,9 @@ import org.springframework.util.Assert;
  * @author Scott Frederick
  * @since 2.7.0
  */
+// 包含 {@code @Configuration} 导入候选，通常是自动配置。
+//
+// {@link #load(Class, ClassLoader)} 方法可用于发现导入候选。
 public final class ImportCandidates implements Iterable<String> {
 
 	private static final String LOCATION = "META-INF/spring/%s.imports";
@@ -62,6 +65,8 @@ public final class ImportCandidates implements Iterable<String> {
 	 * Returns the list of loaded import candidates.
 	 * @return the list of import candidates
 	 */
+	// 返回已加载的导入候选项列表。
+	// @return 导入候选项列表
 	public List<String> getCandidates() {
 		return this.candidates;
 	}
@@ -77,14 +82,21 @@ public final class ImportCandidates implements Iterable<String> {
 	 * @param classLoader class loader to use for loading
 	 * @return list of names of annotated classes
 	 */
+	// 从类路径加载导入候选的名称。
+	// 导入候选的名称存储在类路径下名为 {@code META-INF/spring/full-qualified-annotation-name.imports} 的文件中。
+	// 每行都包含候选类的完整限定名。支持使用 # 字符进行注释。
+	// @param 注解 用于加载的注解
+	// @param classLoader 用于加载的类加载器
+	// @return 带注解的类的名称列表
 	public static ImportCandidates load(Class<?> annotation, ClassLoader classLoader) {
 		Assert.notNull(annotation, "'annotation' must not be null");
-		ClassLoader classLoaderToUse = decideClassloader(classLoader);
-		String location = String.format(LOCATION, annotation.getName());
+		ClassLoader classLoaderToUse = decideClassloader(classLoader); // 决定类加载器
+		String location = String.format(LOCATION, annotation.getName()); //  META-INF/spring/full-qualified-annotation-name.imports
 		Enumeration<URL> urls = findUrlsInClasspath(classLoaderToUse, location);
 		List<String> importCandidates = new ArrayList<>();
 		while (urls.hasMoreElements()) {
 			URL url = urls.nextElement();
+			// readCandidateConfigurations(url) -> 读取候选配置
 			importCandidates.addAll(readCandidateConfigurations(url));
 		}
 		return new ImportCandidates(importCandidates);
@@ -112,7 +124,7 @@ public final class ImportCandidates implements Iterable<String> {
 			List<String> candidates = new ArrayList<>();
 			String line;
 			while ((line = reader.readLine()) != null) {
-				line = stripComment(line);
+				line = stripComment(line); // 跳过注释
 				line = line.trim();
 				if (line.isEmpty()) {
 					continue;
@@ -127,7 +139,7 @@ public final class ImportCandidates implements Iterable<String> {
 	}
 
 	private static String stripComment(String line) {
-		int commentStart = line.indexOf(COMMENT_START);
+		int commentStart = line.indexOf(COMMENT_START); // COMMENT_START = "#"
 		if (commentStart == -1) {
 			return line;
 		}

@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
  *
  * @author Phillip Webb
  */
+// 用于加载 {@link AutoConfigurationMetadata} 的内部实用程序。
 final class AutoConfigurationMetadataLoader {
 
 	private static final String PATH = "META-INF/spring-autoconfigure-metadata.properties";
@@ -39,6 +40,7 @@ final class AutoConfigurationMetadataLoader {
 	}
 
 	static AutoConfigurationMetadata loadMetadata(ClassLoader classLoader) {
+		// PATH = "META-INF/spring-autoconfigure-metadata.properties"
 		return loadMetadata(classLoader, PATH);
 	}
 
@@ -48,9 +50,10 @@ final class AutoConfigurationMetadataLoader {
 					: ClassLoader.getSystemResources(path);
 			Properties properties = new Properties();
 			while (urls.hasMoreElements()) {
+				// PropertiesLoaderUtils.loadProperties(...) -> 从给定资源加载属性（采用 ISO-8859-1 编码）。
 				properties.putAll(PropertiesLoaderUtils.loadProperties(new UrlResource(urls.nextElement())));
 			}
-			return loadMetadata(properties);
+			return loadMetadata(properties); // -> new PropertiesAutoConfigurationMetadata(properties)
 		}
 		catch (IOException ex) {
 			throw new IllegalArgumentException("Unable to load @ConditionalOnClass location [" + path + "]", ex);
@@ -64,6 +67,7 @@ final class AutoConfigurationMetadataLoader {
 	/**
 	 * {@link AutoConfigurationMetadata} implementation backed by a properties file.
 	 */
+	// {@link AutoConfigurationMetadata} 实现由属性文件支持。
 	private static class PropertiesAutoConfigurationMetadata implements AutoConfigurationMetadata {
 
 		private final Properties properties;

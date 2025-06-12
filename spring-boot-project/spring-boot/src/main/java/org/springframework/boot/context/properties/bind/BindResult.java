@@ -33,6 +33,7 @@ import org.springframework.util.ObjectUtils;
  * @author Madhura Bhave
  * @since 2.0.0
  */
+// 用于返回 {@link Binder} 绑定操作结果的容器对象。结果可能为成功绑定的对象，也可能为空。
 public final class BindResult<T> {
 
 	private static final BindResult<?> UNBOUND = new BindResult<>(null);
@@ -86,6 +87,10 @@ public final class BindResult<T> {
 	 * @return an {@code BindResult} describing the result of applying a mapping function
 	 * to the value of this {@code BindResult}.
 	 */
+	// 将提供的映射函数应用于绑定值，如果未绑定任何值，则返回更新后的未绑定结果。
+	// @param <U> 映射函数结果的类型
+	// @param mapper 应用于绑定值的映射函数。如果未绑定任何值，则不会调用该映射器。
+	// @return 一个 {@code BindResult}，描述将映射函数应用于此 {@code BindResult} 的值后的结果。
 	public <U> BindResult<U> map(Function<? super T, ? extends U> mapper) {
 		Assert.notNull(mapper, "Mapper must not be null");
 		return of((this.value != null) ? mapper.apply(this.value) : null);

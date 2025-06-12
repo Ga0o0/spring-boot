@@ -62,7 +62,11 @@ public enum WebApplicationType {
 	private static final String JERSEY_INDICATOR_CLASS = "org.glassfish.jersey.servlet.ServletContainer";
 
 	static WebApplicationType deduceFromClasspath() { // 从类路径推断
-		if (ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null) && !ClassUtils.isPresent(WEBMVC_INDICATOR_CLASS, null)
+		// DispatcherHandler for webflux
+		if (ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null)
+				// DispatcherServlet for webmvc
+				&& !ClassUtils.isPresent(WEBMVC_INDICATOR_CLASS, null)
+				// ServletContainer for jersey
 				&& !ClassUtils.isPresent(JERSEY_INDICATOR_CLASS, null)) {
 			return WebApplicationType.REACTIVE;
 		}

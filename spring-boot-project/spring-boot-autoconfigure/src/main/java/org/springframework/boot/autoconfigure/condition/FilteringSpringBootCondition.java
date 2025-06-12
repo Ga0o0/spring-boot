@@ -36,6 +36,7 @@ import org.springframework.util.CollectionUtils;
  *
  * @author Phillip Webb
  */
+// {@link SpringBootCondition} 的抽象基类，也实现 {@link AutoConfigurationImportFilter}。
 abstract class FilteringSpringBootCondition extends SpringBootCondition
 		implements AutoConfigurationImportFilter, BeanFactoryAware, BeanClassLoaderAware {
 
@@ -103,6 +104,11 @@ abstract class FilteringSpringBootCondition extends SpringBootCondition
 	 * @return a resolved class
 	 * @throws ClassNotFoundException if the class cannot be found
 	 */
+	// {@link ClassUtils#forName(String, ClassLoader)} 的稍快变体，不处理原语、数组或内部类型。
+	// @param className 需要解析的类名
+	// @param classLoader 需要使用的类加载器
+	// @return 已解析的类
+	// @throws ClassNotFoundException 如果找不到该类
 	protected static Class<?> resolve(String className, ClassLoader classLoader) throws ClassNotFoundException {
 		if (classLoader != null) {
 			return Class.forName(className, false, classLoader);

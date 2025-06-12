@@ -27,6 +27,7 @@ import java.util.Set;
  * @author Phillip Webb
  * @since 1.5.0
  */
+// 导入自动配置类时触发的事件。
 public class AutoConfigurationImportEvent extends EventObject {
 
 	private final List<String> candidateConfigurations;
@@ -44,6 +45,8 @@ public class AutoConfigurationImportEvent extends EventObject {
 	 * imported.
 	 * @return the auto-configuration candidates
 	 */
+	// 返回将要导入的自动配置候选配置。
+	// @return 自动配置候选配置
 	public List<String> getCandidateConfigurations() {
 		return this.candidateConfigurations;
 	}
@@ -52,6 +55,8 @@ public class AutoConfigurationImportEvent extends EventObject {
 	 * Return the exclusions that were applied.
 	 * @return the exclusions applied
 	 */
+	// 返回已应用的排除项。
+	// @return 已应用的排除项
 	public Set<String> getExclusions() {
 		return this.exclusions;
 	}

@@ -47,6 +47,17 @@ import org.springframework.core.type.filter.TypeFilter;
  * @author Phillip Webb
  * @since 1.4.0
  */
+// 提供从 {@link BeanFactory} 加载并自动应用于 {@code SpringBootApplication} 扫描的排除 {@link TypeFilter TypeFilters}。
+// 也可以直接与 {@code @ComponentScan} 一起使用，如下所示：
+//
+// <pre class="code">
+// @ComponentScan(excludeFilters = @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class))
+// </pre>
+//
+// <p> 实现应提供使用 {@link BeanFactory} 注册的子类并重写 {@link #match(MetadataReader, MetadataReaderFactory)} 方法。
+// 它们还应实现有效的 {@link #hashCode() hashCode} 和 {@link #equals(Object) equals} 方法，以便它们可用作 Spring 测试的应用程序上下文缓存的一部分。
+//
+// <p> 请注意，{@code TypeExcludeFilters} 在应用程序生命周期的早期就初始化了，它们通常不应依赖于任何其他 bean。它们主要用于内部支持 {@code spring-boot-test}。
 public class TypeExcludeFilter implements TypeFilter, BeanFactoryAware {
 
 	private BeanFactory beanFactory;
@@ -62,6 +73,7 @@ public class TypeExcludeFilter implements TypeFilter, BeanFactoryAware {
 	public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory)
 			throws IOException {
 		if (this.beanFactory instanceof ListableBeanFactory && getClass() == TypeExcludeFilter.class) {
+			// 获取 BeanFactory 中 TypeExcludeFilter 类型的 Bean，并执行其 TypeExcludeFilter.match() 方法
 			for (TypeExcludeFilter delegate : getDelegates()) {
 				if (delegate.match(metadataReader, metadataReaderFactory)) {
 					return true;
@@ -71,6 +83,7 @@ public class TypeExcludeFilter implements TypeFilter, BeanFactoryAware {
 		return false;
 	}
 
+	// 获取 BeanFactory 中 TypeExcludeFilter 类型的 Bean
 	private Collection<TypeExcludeFilter> getDelegates() {
 		Collection<TypeExcludeFilter> delegates = this.delegates;
 		if (delegates == null) {

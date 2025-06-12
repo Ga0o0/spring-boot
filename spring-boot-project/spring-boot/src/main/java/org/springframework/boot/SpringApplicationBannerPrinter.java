@@ -89,7 +89,7 @@ class SpringApplicationBannerPrinter {
 	private Banner getTextBanner(Environment environment) {
 		// BANNER_LOCATION_PROPERTY = "spring.banner.location"
 		// DEFAULT_BANNER_LOCATION = "banner.txt"
-		// spring.banner.location 默认值为 banner.txt
+		// 获取属性 spring.banner.location 的值，默认为：banner.txt
 		String location = environment.getProperty(BANNER_LOCATION_PROPERTY, DEFAULT_BANNER_LOCATION);
 		Resource resource = this.resourceLoader.getResource(location);
 		try {

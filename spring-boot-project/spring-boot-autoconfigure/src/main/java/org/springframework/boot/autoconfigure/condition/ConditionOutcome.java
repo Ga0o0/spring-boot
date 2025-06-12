@@ -26,6 +26,7 @@ import org.springframework.util.ObjectUtils;
  * @since 1.0.0
  * @see ConditionMessage
  */
+// 条件匹配的结果，包括日志消息。
 public class ConditionOutcome {
 
 	private final boolean match;

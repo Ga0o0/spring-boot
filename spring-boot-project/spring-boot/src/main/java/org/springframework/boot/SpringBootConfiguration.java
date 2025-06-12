@@ -41,6 +41,11 @@ import org.springframework.stereotype.Indexed;
  * @author Andy Wilkinson
  * @since 1.4.0
  */
+// 表示某个类提供了 Spring Boot 应用的 {@link Configuration @Configuration}。
+// 可以替代 Spring 的标准 {@code @Configuration} 注解，以便自动找到配置（例如在测试中）。
+//
+// <p> 应用程序应该只包含一个 {@code @SpringBootConfiguration}，并且大多数惯用的
+// Spring Boot 应用程序都会从 {@code @SpringBootApplication} 继承它。
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -70,6 +75,16 @@ public @interface SpringBootConfiguration {
 	 * @return whether to proxy {@code @Bean} methods
 	 * @since 2.2
 	 */
+	// 指定是否应代理 {@link Bean @Bean} 方法以强制执行 Bean 生命周期行为，例如，即使在用户代码中直接调用 {@code @Bean} 方法，也返回共享的单例 Bean 实例。
+	// 此功能需要方法拦截，通过运行时生成的 CGLIB 子类实现，但这存在一些限制，例如配置类及其方法不允许声明 {@code final}。
+	// <p>
+	// 默认值为 {@code true}，允许在配置类中进行“Bean 间引用”以及对此配置的 {@code @Bean} 方法的外部调用，例如从另一个配置类调用。
+	// 如果由于此特定配置的每个 {@code @Bean} 方法都是自包含的并且设计为供容器使用的普通工厂方法而不需要这样做，
+	// 请将此标志切换为 {@code false} 以避免 CGLIB 子类处理。
+	// <p>
+	// 关闭 Bean 方法拦截可以有效地单独处理 {@code @Bean} 方法，就像在非 {@code @Configuration} 类上声明一样，
+	// 也称为“@Bean Lite 模式”（参见 {@link Bean @Bean 的 javadoc}）。因此，它在行为上等同于删除 {@code @Configuration} 构造型。
+	// @return 是否代理 {@code @Bean} 方法
 	@AliasFor(annotation = Configuration.class)
 	boolean proxyBeanMethods() default true;
 

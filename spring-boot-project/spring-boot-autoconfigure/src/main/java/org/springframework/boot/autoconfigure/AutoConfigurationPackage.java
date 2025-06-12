@@ -34,6 +34,8 @@ import org.springframework.context.annotation.Import;
  * @since 1.3.0
  * @see AutoConfigurationPackages
  */
+// 使用 {@link AutoConfigurationPackages} 注册包。
+// 当未指定 {@link #basePackages 基础包} 或 {@link #basePackageClasses 基础包类} 时，将注册带注解类的包。
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -49,6 +51,10 @@ public @interface AutoConfigurationPackage {
 	 * @return the back package names
 	 * @since 2.3.0
 	 */
+	// 应使用 {@link AutoConfigurationPackages} 注册的基础包。
+	// <p>
+	// 使用 {@link #basePackageClasses} 作为基于字符串的包名称的类型安全替代方案。
+	// @return 返回包名称
 	String[] basePackages() default {};
 
 	/**
@@ -60,6 +66,10 @@ public @interface AutoConfigurationPackage {
 	 * @return the base package classes
 	 * @since 2.3.0
 	 */
+	// 使用 {@link #basePackages} 的类型安全替代方案，用于指定要使用 {@link AutoConfigurationPackages} 注册的包。
+	// <p>
+	// 考虑在每个包中创建一个特殊的无操作标记类或接口，除了被此属性引用之外，没有其他用途。
+	// @return 基础包类
 	Class<?>[] basePackageClasses() default {};
 
 }

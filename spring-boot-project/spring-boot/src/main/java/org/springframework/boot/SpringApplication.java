@@ -912,11 +912,13 @@ public class SpringApplication {
 
 	private void callRunners(ConfigurableApplicationContext context, ApplicationArguments args) {
 		ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+		// 获取 Runner 类型的 bean 的 names
 		String[] beanNames = beanFactory.getBeanNamesForType(Runner.class);
 		Map<Runner, String> instancesToBeanNames = new IdentityHashMap<>();
 		for (String beanName : beanNames) {
 			instancesToBeanNames.put(beanFactory.getBean(beanName, Runner.class), beanName);
 		}
+		// 按 PriorityOrdered/Ordered 给 Runner 排序，并执行其 run() 方法
 		Comparator<Object> comparator = getOrderComparator(beanFactory)
 			.withSourceProvider(new FactoryAwareOrderSourceProvider(beanFactory, instancesToBeanNames));
 		instancesToBeanNames.keySet().stream().sorted(comparator).forEach((runner) -> callRunner(runner, args));

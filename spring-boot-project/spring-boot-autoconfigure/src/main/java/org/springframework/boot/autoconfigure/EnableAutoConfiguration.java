@@ -74,6 +74,23 @@ import org.springframework.context.annotation.Import;
  * @see AutoConfigureAfter
  * @see SpringBootApplication
  */
+// 启用 Spring 应用程序上下文的自动配置功能，尝试猜测并配置您可能需要的 bean。自动配置类通常根据您的类路径和您定义的 bean 来应用。
+// 例如，如果您的类路径中有 {@code tomcat-embedded.jar}，您很可能需要一个 {@link TomcatServletWebServerFactory}
+// （除非您定义了自己的 {@link ServletWebServerFactory} bean）。
+//
+// <p> 使用 {@link SpringBootApplication @SpringBootApplication} 时，上下文的自动配置会自动启用，因此添加此注解不会产生任何额外影响。
+//
+// <p> 自动配置会尽可能地智能，并且会随着您定义更多自己的配置而逐渐减弱。您可以随时手动 {@link #exclude()} 任何您不想应用的配置
+// （如果您无权访问它们，请使用 {@link #excludeName()}）。您也可以通过 {@code spring.autoconfigure.exclude} 属性将它们排除在外。
+// 自动配置始终在用户定义的 bean 注册后应用。
+//
+// <p> 使用 {@code @EnableAutoConfiguration} 注解的类的包（通常通过 {@code @SpringBootApplication} 进行）具有特定含义，
+// 并且经常用作“默认”包。例如，在扫描 {@code @Entity} 类时将使用它。通常建议将 {@code @EnableAutoConfiguration}
+// （如果您未使用 {@code @SpringBootApplication}）放置在根包中，以便可以搜索所有子包和类。
+//
+// <p> 自动配置类是常规的 Spring {@link Configuration @Configuration} bean。它们使用 {@link ImportCandidates} 进行定位。
+// 通常，自动配置 bean 是 {@link Conditional @Conditional} bean（最常使用 {@link ConditionalOnClass @ConditionalOnClass} 和
+// {@link ConditionalOnMissingBean @ConditionalOnMissingBean} 注解）。
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -86,12 +103,15 @@ public @interface EnableAutoConfiguration {
 	 * Environment property that can be used to override when auto-configuration is
 	 * enabled.
 	 */
+	// 启用自动配置后可用于覆盖的环境属性。
 	String ENABLED_OVERRIDE_PROPERTY = "spring.boot.enableautoconfiguration";
 
 	/**
 	 * Exclude specific auto-configuration classes such that they will never be applied.
 	 * @return the classes to exclude
 	 */
+	// 排除特定的自动配置类，使其永远不会被应用。
+	// @return 要排除的类
 	Class<?>[] exclude() default {};
 
 	/**
@@ -100,6 +120,8 @@ public @interface EnableAutoConfiguration {
 	 * @return the class names to exclude
 	 * @since 1.3.0
 	 */
+	// 排除特定的自动配置类名，使其永远不会被应用。
+	// @return 要排除的类名
 	String[] excludeName() default {};
 
 }

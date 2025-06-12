@@ -41,6 +41,11 @@ import org.springframework.util.Assert;
  *
  * @author Phillip Webb
  */
+// 通过读取
+// {@link AutoConfigureOrder @AutoConfigureOrder}、
+// {@link AutoConfigureBefore @AutoConfigureBefore} 和
+// {@link AutoConfigureAfter @AutoConfigureAfter} 注释（不加载类），
+// 将 {@link EnableAutoConfiguration auto-configuration} 类按优先级顺序排序。
 class AutoConfigurationSorter {
 
 	private final MetadataReaderFactory metadataReaderFactory;
@@ -54,11 +59,16 @@ class AutoConfigurationSorter {
 		this.autoConfigurationMetadata = autoConfigurationMetadata;
 	}
 
+	// 排序 classNames
 	List<String> getInPriorityOrder(Collection<String> classNames) {
-		// Initially sort alphabetically
-		List<String> alphabeticallyOrderedClassNames = new ArrayList<>(classNames);
+		// Initially sort alphabetically --> 译文：最初按字母顺序排序
+		// 1. 最初按字母顺序排序
+		List<String> alphabeticallyOrderedClassNames = new ArrayList<>(classNames); // 按字母顺序排列的类名
 		Collections.sort(alphabeticallyOrderedClassNames);
-		// Then sort by order
+		// Then sort by order --> 译文：然后按顺序排序
+		// 2. 按顺序排序；主要工作：
+		// 	2a. 遍历 alphabeticallyOrderedClassNames，并将其封装成 AutoConfigurationClass 添加到 AutoConfigurationClasses.classes；
+		// 	2b. 处理 1 中 AutoConfigurationClass 包装的类上的 @AutoConfigureBefore/@AutoConfigureAfter 注解
 		AutoConfigurationClasses classes = new AutoConfigurationClasses(this.metadataReaderFactory,
 				this.autoConfigurationMetadata, alphabeticallyOrderedClassNames);
 		List<String> orderedClassNames = new ArrayList<>(classNames);
@@ -68,7 +78,8 @@ class AutoConfigurationSorter {
 			int i2 = classes.get(o2).getOrder();
 			return Integer.compare(i1, i2);
 		});
-		// Then respect @AutoConfigureBefore @AutoConfigureAfter
+		// Then respect @AutoConfigureBefore @AutoConfigureAfter --> 译文：然后尊重@AutoConfigureBefore @AutoConfigureAfter
+		// 3. 根据 @AutoConfigureBefore/@AutoConfigureAfter 排序
 		orderedClassNames = sortByAnnotation(classes, orderedClassNames);
 		return orderedClassNames;
 	}
@@ -121,6 +132,8 @@ class AutoConfigurationSorter {
 			return this.classes.keySet();
 		}
 
+		// 1. 遍历 classNames，并将其封装成 AutoConfigurationClass 添加到 this.classes；
+		// 2. 处理 1 中 AutoConfigurationClass 包装的类上的 @AutoConfigureBefore/@AutoConfigureAfter 注解
 		private void addToClasses(MetadataReaderFactory metadataReaderFactory,
 				AutoConfigurationMetadata autoConfigurationMetadata, Collection<String> classNames, boolean required) {
 			for (String className : classNames) {
@@ -132,8 +145,10 @@ class AutoConfigurationSorter {
 						this.classes.put(className, autoConfigurationClass);
 					}
 					if (available) {
+						// 处理 @AutoConfigureBefore
 						addToClasses(metadataReaderFactory, autoConfigurationMetadata,
 								autoConfigurationClass.getBefore(), false);
+						// 处理 @AutoConfigureAfter
 						addToClasses(metadataReaderFactory, autoConfigurationMetadata,
 								autoConfigurationClass.getAfter(), false);
 					}

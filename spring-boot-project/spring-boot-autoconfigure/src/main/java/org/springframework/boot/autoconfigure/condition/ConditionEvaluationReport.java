@@ -46,6 +46,7 @@ import org.springframework.util.ObjectUtils;
  * @author Stephane Nicoll
  * @since 1.0.0
  */
+// 记录条件评估详细信息以供报告和记录。
 public final class ConditionEvaluationReport {
 
 	private static final String BEAN_NAME = "autoConfigurationReport";

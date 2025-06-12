@@ -36,6 +36,7 @@ import org.springframework.util.StringUtils;
  * @author Greg Turnquist
  * @since 1.0.0
  */
+// Spring Boot 使用的所有 {@link Condition} 实现的基础。提供合理的日志记录，帮助用户诊断已加载的类。
 public abstract class SpringBootCondition implements Condition {
 
 	private final Log logger = LogFactory.getLog(getClass());
@@ -112,6 +113,10 @@ public abstract class SpringBootCondition implements Condition {
 	 * @param metadata the annotation metadata
 	 * @return the condition outcome
 	 */
+	// 确定匹配结果并输出合适的日志。
+	// @param context 条件上下文
+	// @param metadata 注解元数据
+	// @return 条件结果
 	public abstract ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata);
 
 	/**
@@ -121,6 +126,11 @@ public abstract class SpringBootCondition implements Condition {
 	 * @param conditions conditions to test
 	 * @return {@code true} if any condition matches.
 	 */
+	// 如果任何指定的条件匹配，则返回 true。
+	// @param context 上下文
+	// @param metadata 注解元数据
+	// @param conditions 要测试的条件
+	// 如果任何条件匹配，则返回 {@code true}。
 	protected final boolean anyMatches(ConditionContext context, AnnotatedTypeMetadata metadata,
 			Condition... conditions) {
 		for (Condition condition : conditions) {
@@ -138,6 +148,11 @@ public abstract class SpringBootCondition implements Condition {
 	 * @param condition condition to test
 	 * @return {@code true} if the condition matches.
 	 */
+	// 如果任何指定的条件匹配，则返回 true。
+	// @param context 上下文
+	// @param metadata 注解元数据
+	// @param condition 要测试的条件
+	// @return {@code true} 如果条件匹配。
 	protected final boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata, Condition condition) {
 		if (condition instanceof SpringBootCondition springBootCondition) {
 			return springBootCondition.getMatchOutcome(context, metadata).isMatch();

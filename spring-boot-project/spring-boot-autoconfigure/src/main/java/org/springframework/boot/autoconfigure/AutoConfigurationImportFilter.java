@@ -39,6 +39,17 @@ import org.springframework.context.ResourceLoaderAware;
  * @author Phillip Webb
  * @since 1.5.0
  */
+// 可在 {@code spring.factories} 中注册的过滤器，用于限制需要考虑的自动配置类。此接口旨在允许在读取字节码之前快速移除自动配置类。
+//
+// <p> {@link AutoConfigurationImportFilter} 可以实现以下任何 {@link org.springframework.beans.factory.Aware Aware} 接口，
+// 并且其各自的方法将在 {@link #match} 之前调用：
+//
+// <ul>
+// <li>{@link EnvironmentAware} </li>
+// <li>{@link BeanFactoryAware} </li>
+// <li>{@link BeanClassLoaderAware} </li>
+// <li>{@link ResourceLoaderAware} </li>
+// </ul>
 @FunctionalInterface
 public interface AutoConfigurationImportFilter {
 
@@ -54,6 +65,11 @@ public interface AutoConfigurationImportFilter {
 	 * {@code autoConfigurationClasses} parameter. Entries containing {@code false} will
 	 * not be imported.
 	 */
+	// 将过滤器应用于给定的自动配置类候选项。
+	// @param autoConfigurationClasses 正在考虑的自动配置类。此数组可能包含 {@code null} 个元素。实现不应更改此数组中的值。
+	// @param autoConfigurationMetadata 访问由自动配置注释处理器生成的元数据。
+	// @return 一个布尔数组，指示应导入哪些自动配置类。
+	// 返回的数组大小必须与传入的 {@code autoConfigurationClasses} 参数相同。包含 {@code false} 的条目将不会被导入。
 	boolean[] match(String[] autoConfigurationClasses, AutoConfigurationMetadata autoConfigurationMetadata);
 
 }

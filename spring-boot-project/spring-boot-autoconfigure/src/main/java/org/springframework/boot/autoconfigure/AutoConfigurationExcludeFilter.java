@@ -33,6 +33,7 @@ import org.springframework.core.type.filter.TypeFilter;
  * @author Scott Frederick
  * @since 1.5.0
  */
+// 与已注册的自动配置类匹配的 {@link TypeFilter} 实现。
 public class AutoConfigurationExcludeFilter implements TypeFilter, BeanClassLoaderAware {
 
 	private ClassLoader beanClassLoader;
@@ -51,18 +52,21 @@ public class AutoConfigurationExcludeFilter implements TypeFilter, BeanClassLoad
 	}
 
 	private boolean isConfiguration(MetadataReader metadataReader) {
+		// 被 @Configuration 标记
 		return metadataReader.getAnnotationMetadata().isAnnotated(Configuration.class.getName());
 	}
 
 	private boolean isAutoConfiguration(MetadataReader metadataReader) {
 		boolean annotatedWithAutoConfiguration = metadataReader.getAnnotationMetadata()
 			.isAnnotated(AutoConfiguration.class.getName());
+		// 被 @AutoConfiguration 标记或 autoConfigurations 中已存在
 		return annotatedWithAutoConfiguration
 				|| getAutoConfigurations().contains(metadataReader.getClassMetadata().getClassName());
 	}
 
 	protected List<String> getAutoConfigurations() {
 		if (this.autoConfigurations == null) {
+			// 从 META-INF/spring/full-qualified-annotation-name.imports 读取候选项，并封装于 ImportCandidates 中返回
 			this.autoConfigurations = ImportCandidates.load(AutoConfiguration.class, this.beanClassLoader)
 				.getCandidates();
 		}

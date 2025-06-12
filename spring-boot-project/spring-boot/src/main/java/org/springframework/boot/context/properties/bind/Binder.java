@@ -237,6 +237,11 @@ public class Binder {
 	 * @return the binding result (never {@code null})
 	 * @see #bind(ConfigurationPropertyName, Bindable, BindHandler)
 	 */
+	// 使用此绑定器的 {@link ConfigurationPropertySource 属性源} 绑定指定的目标 {@link Class}。
+	// @param name 要绑定的配置属性名称
+	// @param target 目标类
+	// @param <T> 绑定类型
+	// @return 绑定结果（永不返回 {@code null}） 
 	public <T> BindResult<T> bind(String name, Class<T> target) {
 		return bind(name, Bindable.of(target));
 	}
@@ -294,6 +299,12 @@ public class Binder {
 	 * @param <T> the bound type
 	 * @return the binding result (never {@code null})
 	 */
+	// 使用此绑定器的 {@link ConfigurationPropertySource 属性源} 绑定指定的目标 {@link Bindable}。
+	// @param name 要绑定的配置属性名称
+	// @param target 可绑定目标
+	// @param handler 绑定处理程序（可以为 {@code null}）
+	// @param <T> 绑定类型
+	// @return 绑定结果（不能为 {@code null}）
 	public <T> BindResult<T> bind(ConfigurationPropertyName name, Bindable<T> target, BindHandler handler) {
 		T bound = bind(name, target, handler, false);
 		return BindResult.of(bound);

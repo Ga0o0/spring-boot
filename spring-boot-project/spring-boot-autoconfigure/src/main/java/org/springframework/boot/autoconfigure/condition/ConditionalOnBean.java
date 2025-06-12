@@ -60,6 +60,26 @@ import org.springframework.context.annotation.Conditional;
  * @author Phillip Webb
  * @since 1.0.0
  */
+// {@link Conditional @Conditional} 仅当 {@link BeanFactory} 中已包含满足所有指定要求的 Bean 时才会匹配。
+// 条件必须满足所有要求才能匹配，但这些要求不必由同一个 Bean 满足。
+//
+// <p> 当放置在 {@link Bean @Bean} 方法上且未指定 {@link #value}、{@link #type} 或 {@link #name} 时，
+// 要匹配的 Bean 类型默认为 {@code @Bean} 方法的返回类型：
+//
+// <pre class="code">
+// @Configuration
+// public class MyAutoConfiguration {
+// 		@ConditionalOnBean
+// 		@Bean
+// 		public MyService myService() {
+// 			...
+// 		}
+// }</pre>
+//
+// <p> 在上面的示例中，如果 {@link BeanFactory} 中已包含类型为 {@code MyService} 的 Bean，则条件将匹配。
+//
+// <p> 该条件只能匹配迄今为止已被应用上下文处理过的 Bean 定义，因此强烈建议仅在自动配置类中使用此条件。
+// 如果候选 Bean 可能由其他自动配置创建，请确保使用此条件的 Bean 在之后运行。
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -71,6 +91,8 @@ public @interface ConditionalOnBean {
 	 * of all classes specified are contained in the {@link BeanFactory}.
 	 * @return the class types of beans to check
 	 */
+	// 需要检查的 bean 的类类型。当 {@link BeanFactory} 中包含所有指定类的 bean 时，条件成立。
+	// @return 需要检查的 bean 的类类型
 	Class<?>[] value() default {};
 
 	/**
@@ -78,6 +100,8 @@ public @interface ConditionalOnBean {
 	 * beans of all classes specified are contained in the {@link BeanFactory}.
 	 * @return the class type names of beans to check
 	 */
+	// 需要检查的 bean 的类类型名称。当 {@link BeanFactory} 中包含所有指定类的 bean 时，条件成立。
+	// @return 需要检查的 bean 的类类型名称
 	String[] type() default {};
 
 	/**
@@ -85,6 +109,8 @@ public @interface ConditionalOnBean {
 	 * when all the annotations specified are defined on beans in the {@link BeanFactory}.
 	 * @return the class-level annotation types to check
 	 */
+	// 装饰需要检查的 bean 的注解类型。当 {@link BeanFactory} 中的 bean 上定义了所有指定的注解时，条件成立。
+	// @return 需要检查的类级别注解类型
 	Class<? extends Annotation>[] annotation() default {};
 
 	/**
@@ -92,6 +118,8 @@ public @interface ConditionalOnBean {
 	 * specified are contained in the {@link BeanFactory}.
 	 * @return the names of beans to check
 	 */
+	// 需要检查的 bean 的名称。当所有指定的 Bean 名称都包含在 {@link BeanFactory} 中时，条件匹配。
+	// @return 待检查 Bean 的名称
 	String[] name() default {};
 
 	/**
@@ -99,6 +127,8 @@ public @interface ConditionalOnBean {
 	 * considered.
 	 * @return the search strategy
 	 */
+	// 用于决定是否应考虑应用上下文层次结构（父上下文）的策略。
+	// @return 搜索策略
 	SearchStrategy search() default SearchStrategy.ALL;
 
 	/**
@@ -109,6 +139,9 @@ public @interface ConditionalOnBean {
 	 * @return the container types
 	 * @since 2.1.0
 	 */
+	// 可能在其泛型参数中包含指定 Bean 类型的附加类。例如，声明 {@code value=Name.class} 和
+	// {@code parameterizedContainer=NameRegistration.class} 的注解将同时检测 {@code Name} 和 {@code NameRegistration<Name>}。
+	// @return 容器类型
 	Class<?>[] parameterizedContainer() default {};
 
 }

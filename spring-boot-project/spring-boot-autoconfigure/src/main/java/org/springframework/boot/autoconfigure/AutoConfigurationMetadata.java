@@ -24,6 +24,7 @@ import java.util.Set;
  * @author Phillip Webb
  * @since 1.5.0
  */
+// 提供对自动配置注释处理器编写的元数据的访问。
 public interface AutoConfigurationMetadata {
 
 	/**
@@ -32,6 +33,9 @@ public interface AutoConfigurationMetadata {
 	 * @param className the source class
 	 * @return if the class was processed
 	 */
+	// 如果指定的类名已被注解处理器处理，则返回 {@code true}。
+	// @param className 源类
+	// @return 类是否已处理
 	boolean wasProcessed(String className);
 
 	/**
@@ -40,6 +44,10 @@ public interface AutoConfigurationMetadata {
 	 * @param key the meta-data key
 	 * @return the meta-data value or {@code null}
 	 */
+	// 从元数据中获取一个 {@link Integer} 值。
+	// @param className 源类
+	// @param key 元数据键
+	// @return 元数据值或 {@code null}
 	Integer getInteger(String className, String key);
 
 	/**
@@ -49,6 +57,11 @@ public interface AutoConfigurationMetadata {
 	 * @param defaultValue the default value
 	 * @return the meta-data value or {@code defaultValue}
 	 */
+	// 从元数据中获取一个 {@link Integer} 值。
+	// @param className 源类
+	// @param key 元数据键
+	// @param defaultValue 默认值
+	// @return 元数据值或 {@code defaultValue}
 	Integer getInteger(String className, String key, Integer defaultValue);
 
 	/**
@@ -57,6 +70,10 @@ public interface AutoConfigurationMetadata {
 	 * @param key the meta-data key
 	 * @return the meta-data value or {@code null}
 	 */
+	// 从元数据中获取一个 {@link Set} 值。
+	// @param className 源类
+	// @param key 元数据的键
+	// @return 元数据值或 {@code null}
 	Set<String> getSet(String className, String key);
 
 	/**
@@ -66,6 +83,11 @@ public interface AutoConfigurationMetadata {
 	 * @param defaultValue the default value
 	 * @return the meta-data value or {@code defaultValue}
 	 */
+	// 从元数据中获取一个 {@link Set} 值。
+	// @param className 源类
+	// @param key 元数据的键
+	// @param defaultValue 默认值
+	// @return 元数据值或 {@code defaultValue}
 	Set<String> getSet(String className, String key, Set<String> defaultValue);
 
 	/**
@@ -74,6 +96,10 @@ public interface AutoConfigurationMetadata {
 	 * @param key the meta-data key
 	 * @return the meta-data value or {@code null}
 	 */
+	// 从元数据中获取一个 {@link String} 值。
+	// @param className 源类
+	// @param key 元数据键
+	// @return 元数据值或 {@code null}
 	String get(String className, String key);
 
 	/**
@@ -83,6 +109,11 @@ public interface AutoConfigurationMetadata {
 	 * @param defaultValue the default value
 	 * @return the meta-data value or {@code defaultValue}
 	 */
+	// 从元数据中获取一个 {@link String} 值。
+	// @param className 源类
+	// @param key 元数据键
+	// @param defaultValue 默认值
+	// @return 元数据值或 {@code defaultValue}
 	String get(String className, String key, String defaultValue);
 
 }
