@@ -62,6 +62,8 @@ import org.springframework.validation.annotation.Validated;
  * @author Stephane Nicoll
  * @author Phillip Webb
  */
+// {@link ConfigurationPropertiesBindingPostProcessor} 使用的内部类来处理实际的
+// {@link ConfigurationProperties @ConfigurationProperties} 绑定。
 class ConfigurationPropertiesBinder {
 
 	private static final String BEAN_NAME = "org.springframework.boot.context.internalConfigurationPropertiesBinder";
@@ -203,6 +205,8 @@ class ConfigurationPropertiesBinder {
 	}
 
 	static void register(BeanDefinitionRegistry registry) {
+		// BEAN_NAME = org.springframework.boot.context.internalConfigurationPropertiesBinder
+		// BEAN_CLASS = ConfigurationPropertiesBinderFactory
 		if (!registry.containsBeanDefinition(BEAN_NAME)) {
 			BeanDefinition definition = BeanDefinitionBuilder
 				.rootBeanDefinition(ConfigurationPropertiesBinderFactory.class)
@@ -241,6 +245,7 @@ class ConfigurationPropertiesBinder {
 	/**
 	 * {@link FactoryBean} to create the {@link ConfigurationPropertiesBinder}.
 	 */
+	// {@link FactoryBean} 创建 {@link ConfigurationPropertiesBinder}。
 	static class ConfigurationPropertiesBinderFactory
 			implements FactoryBean<ConfigurationPropertiesBinder>, ApplicationContextAware {
 

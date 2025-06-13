@@ -31,6 +31,8 @@ import java.lang.annotation.Target;
  * @author Phillip Webb
  * @since 3.0.0
  */
+// 此注解可用于指示在使用构造函数参数（而非调用 setter）绑定配置属性时应使用哪个构造函数。
+// 单参数构造函数隐式指示应使用构造函数绑定，除非该构造函数带有 {@code @Autowired} 注解。
 @Target({ ElementType.CONSTRUCTOR, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

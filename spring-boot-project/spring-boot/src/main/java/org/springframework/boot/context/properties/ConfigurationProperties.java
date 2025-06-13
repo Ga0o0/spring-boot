@@ -45,6 +45,14 @@ import org.springframework.stereotype.Indexed;
  * @see ConfigurationPropertiesBindingPostProcessor
  * @see EnableConfigurationProperties
  */
+// 用于外部化配置的注解。
+// 如果您需要绑定并验证某些外部属性（例如，来自 .properties 文件的属性），
+// 请将其添加到 {@code @Configuration} 类的定义或 {@code @Bean} 方法中。
+//
+// <p> 绑定可以通过调用带注解类的 setter 方法执行，或者，
+// 如果使用了 {@link ConstructorBinding @ConstructorBinding}，则通过绑定到构造函数参数来执行。
+//
+// <p> 请注意，与 {@code @Value} 相反，由于属性值是外部化的，因此不会对 SpEL 表达式进行求值。
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -57,6 +65,9 @@ public @interface ConfigurationProperties {
 	 * dots (e.g. {@code "acme.system.feature"}).
 	 * @return the prefix of the properties to bind
 	 */
+	// 可绑定到此对象的有效属性的前缀。
+	// 与 {@link #prefix()} 同义。有效前缀由一个或多个用点分隔的单词定义（例如 {@code "acme.system.feature"}）。
+	// @return 要绑定的属性的前缀
 	@AliasFor("prefix")
 	String value() default "";
 
@@ -66,6 +77,9 @@ public @interface ConfigurationProperties {
 	 * dots (e.g. {@code "acme.system.feature"}).
 	 * @return the prefix of the properties to bind
 	 */
+	// 可绑定到此对象的有效属性的前缀。与 {@link #value()} 同义。
+	// 有效前缀由一个或多个用点分隔的单词定义（例如 {@code "acme.system.feature"}）。
+	// @return 要绑定的属性的前缀
 	@AliasFor("value")
 	String prefix() default "";
 
@@ -75,6 +89,9 @@ public @interface ConfigurationProperties {
 	 * fields of the wrong type (or that cannot be coerced into the correct type).
 	 * @return the flag value (default false)
 	 */
+	// 指示在绑定到此对象时应忽略无效字段的标志。
+	// 无效表示根据所使用的绑定器无效，通常这意味着字段类型错误（或无法强制转换为正确类型）。
+	// @return 标志值（默认 false）
 	boolean ignoreInvalidFields() default false;
 
 	/**
@@ -82,6 +99,8 @@ public @interface ConfigurationProperties {
 	 * An unknown field could be a sign of a mistake in the Properties.
 	 * @return the flag value (default true)
 	 */
+	// 标志指示在绑定到此对象时应忽略未知字段。未知字段可能表示属性设置存在错误。
+	// @return 标志值（默认 true）
 	boolean ignoreUnknownFields() default true;
 
 }

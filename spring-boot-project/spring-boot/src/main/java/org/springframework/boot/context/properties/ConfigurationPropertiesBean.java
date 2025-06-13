@@ -56,6 +56,10 @@ import org.springframework.validation.annotation.Validated;
  * @see #getAll(ApplicationContext)
  * @see #get(ApplicationContext, Object, String)
  */
+// 提供对 {@link ConfigurationProperties @ConfigurationProperties} bean 详细信息的访问，
+// 无论该注解是直接使用还是在 {@link Bean @Bean} 工厂方法中使用。
+// 此类可用于访问 ApplicationContext 中的 {@link #getAll(ApplicationContext) 所有} 配置属性 bean，
+// 或根据具体情况（例如，在 {@link BeanPostProcessor} 中）访问 {@link #get(ApplicationContext, Object, String) 单个 bean。
 public final class ConfigurationPropertiesBean {
 
 	private static final org.springframework.boot.context.properties.bind.BindMethod JAVA_BEAN_BIND_METHOD = //
@@ -284,6 +288,9 @@ public final class ConfigurationPropertiesBean {
 	 * @param type the source type
 	 * @return the bind method to use
 	 */
+	// 推断给定类型应使用的 {@code BindMethod}。
+	// @param type 源类型
+	// @return 要使用的绑定方法
 	static org.springframework.boot.context.properties.bind.BindMethod deduceBindMethod(Class<?> type) {
 		return deduceBindMethod(BindConstructorProvider.DEFAULT.getBindConstructor(type, false));
 	}

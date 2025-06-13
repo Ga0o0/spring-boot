@@ -30,6 +30,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  *
  * @author Phillip Webb
  */
+// 支持用 {@link Validated @Validated} 注释的配置类的验证器。
 final class ConfigurationPropertiesJsr303Validator implements Validator {
 
 	private static final String[] VALIDATOR_CLASSES = { "jakarta.validation.Validator",

@@ -27,6 +27,7 @@ import org.springframework.boot.context.properties.bind.BindHandler;
  * @since 2.1.0
  * @see AbstractBindHandler
  */
+// 允许将附加功能应用于 {@link ConfigurationPropertiesBindingPostProcessor} 使用的 {@link BindHandler}。
 @FunctionalInterface
 public interface ConfigurationPropertiesBindHandlerAdvisor {
 
@@ -36,6 +37,9 @@ public interface ConfigurationPropertiesBindHandlerAdvisor {
 	 * @return a replacement bind handler that delegates to the source and provides
 	 * additional functionality
 	 */
+	// 向源绑定处理程序应用附加功能。
+	// @param bindHandler 源绑定处理程序
+	// @return 一个替代绑定处理程序，该处理程序委托给源并提供附加功能
 	BindHandler apply(BindHandler bindHandler);
 
 }

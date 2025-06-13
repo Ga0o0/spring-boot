@@ -41,12 +41,14 @@ import org.springframework.util.Assert;
  * @author Madhura Bhave
  * @since 1.0.0
  */
+// {@link BeanPostProcessor} 将 {@link PropertySources} 绑定到带有 {@link ConfigurationProperties @ConfigurationProperties} 注释的 bean。
 public class ConfigurationPropertiesBindingPostProcessor
 		implements BeanPostProcessor, PriorityOrdered, ApplicationContextAware, InitializingBean {
 
 	/**
 	 * The bean name that this post-processor is registered with.
 	 */
+	// 此后处理器注册的 bean 名称。
 	public static final String BEAN_NAME = ConfigurationPropertiesBindingPostProcessor.class.getName();
 
 	private ApplicationContext applicationContext;
@@ -64,6 +66,7 @@ public class ConfigurationPropertiesBindingPostProcessor
 	public void afterPropertiesSet() throws Exception {
 		// We can't use constructor injection of the application context because
 		// it causes eager factory bean initialization
+		// --> 译文：我们不能使用应用程序上下文的构造函数注入，因为它会导致急切的工厂 bean 初始化
 		this.registry = (BeanDefinitionRegistry) this.applicationContext.getAutowireCapableBeanFactory();
 		this.binder = ConfigurationPropertiesBinder.get(this.applicationContext);
 	}
@@ -106,8 +109,12 @@ public class ConfigurationPropertiesBindingPostProcessor
 	 * @param registry the bean definition registry
 	 * @since 2.2.0
 	 */
+	// 如果尚未注册，则注册一个 {@link ConfigurationPropertiesBindingPostProcessor} bean。
+	// @param registry bean 定义注册表
 	public static void register(BeanDefinitionRegistry registry) {
 		Assert.notNull(registry, "Registry must not be null");
+		// BEAN_NAME = org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor
+		// BEAN_CLASS = ConfigurationPropertiesBindingPostProcessor
 		if (!registry.containsBeanDefinition(BEAN_NAME)) {
 			BeanDefinition definition = BeanDefinitionBuilder
 				.rootBeanDefinition(ConfigurationPropertiesBindingPostProcessor.class)
@@ -115,6 +122,8 @@ public class ConfigurationPropertiesBindingPostProcessor
 			definition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 			registry.registerBeanDefinition(BEAN_NAME, definition);
 		}
+		// register ConfigurationPropertiesBinderFactory -> ConfigurationPropertiesBinder
+		// -> ConfigurationPropertiesBindingPostProcessor 会使用 ConfigurationPropertiesBinder
 		ConfigurationPropertiesBinder.register(registry);
 	}
 

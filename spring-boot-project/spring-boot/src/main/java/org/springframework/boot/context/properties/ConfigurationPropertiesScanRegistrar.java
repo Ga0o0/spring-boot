@@ -45,6 +45,7 @@ import org.springframework.util.StringUtils;
  * @author Madhura Bhave
  * @author Phillip Webb
  */
+// {@link ImportBeanDefinitionRegistrar} 用于通过扫描注册 {@link ConfigurationProperties @ConfigurationProperties} bean 定义。
 class ConfigurationPropertiesScanRegistrar implements ImportBeanDefinitionRegistrar {
 
 	private final Environment environment;
@@ -58,29 +59,38 @@ class ConfigurationPropertiesScanRegistrar implements ImportBeanDefinitionRegist
 
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+		// 从注解 @ConfigurationPropertiesScan 上需要扫描包名的集合
 		Set<String> packagesToScan = getPackagesToScan(importingClassMetadata);
 		scan(registry, packagesToScan);
 	}
 
 	private Set<String> getPackagesToScan(AnnotationMetadata metadata) {
+		// 获取注解 @ConfigurationPropertiesScan 的属性
 		AnnotationAttributes attributes = AnnotationAttributes
 			.fromMap(metadata.getAnnotationAttributes(ConfigurationPropertiesScan.class.getName()));
+		// ConfigurationPropertiesScan#basePackages
 		String[] basePackages = attributes.getStringArray("basePackages");
+		// ConfigurationPropertiesScan#basePackageClasses
 		Class<?>[] basePackageClasses = attributes.getClassArray("basePackageClasses");
 		Set<String> packagesToScan = new LinkedHashSet<>(Arrays.asList(basePackages));
 		for (Class<?> basePackageClass : basePackageClasses) {
+			// ClassUtils.getPackageName(basePackageClass) -> 确定给定类的包的名称
 			packagesToScan.add(ClassUtils.getPackageName(basePackageClass));
 		}
 		if (packagesToScan.isEmpty()) {
+			// 添加注解 @ConfigurationPropertiesScan 标注类的包的名称
 			packagesToScan.add(ClassUtils.getPackageName(metadata.getClassName()));
 		}
+		// 移除没有实际文本的名包
 		packagesToScan.removeIf((candidate) -> !StringUtils.hasText(candidate));
 		return packagesToScan;
 	}
 
 	private void scan(BeanDefinitionRegistry registry, Set<String> packages) {
 		ConfigurationPropertiesBeanRegistrar registrar = new ConfigurationPropertiesBeanRegistrar(registry);
+		// 创建 ClassPathScanningCandidateComponentProvider
 		ClassPathScanningCandidateComponentProvider scanner = getScanner(registry);
+		// 扫描包，查找候选组件并注册
 		for (String basePackage : packages) {
 			for (BeanDefinition candidate : scanner.findCandidateComponents(basePackage)) {
 				register(registrar, candidate.getBeanClassName());
@@ -92,6 +102,7 @@ class ConfigurationPropertiesScanRegistrar implements ImportBeanDefinitionRegist
 		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
 		scanner.setEnvironment(this.environment);
 		scanner.setResourceLoader(this.resourceLoader);
+		// 包含 @ConfigurationProperties
 		scanner.addIncludeFilter(new AnnotationTypeFilter(ConfigurationProperties.class));
 		TypeExcludeFilter typeExcludeFilter = new TypeExcludeFilter();
 		typeExcludeFilter.setBeanFactory((BeanFactory) registry);
@@ -109,6 +120,7 @@ class ConfigurationPropertiesScanRegistrar implements ImportBeanDefinitionRegist
 	}
 
 	private void register(ConfigurationPropertiesBeanRegistrar registrar, Class<?> type) {
+		// 是否被 @Component 标记
 		if (!isComponent(type)) {
 			registrar.register(type);
 		}

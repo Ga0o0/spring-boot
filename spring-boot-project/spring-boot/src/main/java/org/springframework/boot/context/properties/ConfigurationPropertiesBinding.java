@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @author Dave Syer
  * @since 1.3.0
  */
+// 配置 {@link ConfigurationProperties @ConfigurationProperties} 绑定所需的 bean 的限定符（例如转换器）。
 @Qualifier(ConfigurationPropertiesBinding.VALUE)
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
@@ -40,6 +41,7 @@ public @interface ConfigurationPropertiesBinding {
 	/**
 	 * Concrete value for the {@link Qualifier @Qualifier}.
 	 */
+	// {@link Qualifier @Qualifier} 的具体值。
 	String VALUE = "org.springframework.boot.context.properties.ConfigurationPropertiesBinding";
 
 }

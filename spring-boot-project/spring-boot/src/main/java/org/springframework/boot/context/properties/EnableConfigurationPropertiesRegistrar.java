@@ -36,6 +36,7 @@ import org.springframework.core.type.AnnotationMetadata;
  * @author Phillip Webb
  * @author Andy Wilkinson
  */
+// {@link ImportBeanDefinitionRegistrar} 用于 {@link EnableConfigurationProperties @EnableConfigurationProperties}。
 class EnableConfigurationPropertiesRegistrar implements ImportBeanDefinitionRegistrar {
 
 	private static final String METHOD_VALIDATION_EXCLUDE_FILTER_BEAN_NAME = Conventions
@@ -43,9 +44,15 @@ class EnableConfigurationPropertiesRegistrar implements ImportBeanDefinitionRegi
 
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+		// 注册基础设施 Bean: ConfigurationPropertiesBindingPostProcessor + ConfigurationPropertiesBinder + BoundConfigurationProperties
+		// 	a. ConfigurationPropertiesBindingPostProcessor 依赖 ConfigurationPropertiesBinder；
+		// 	b. ConfigurationPropertiesBinder 依赖 BoundConfigurationProperties
 		registerInfrastructureBeans(registry);
+		// 注册 MethodValidationExcludeFilter
 		registerMethodValidationExcludeFilter(registry);
 		ConfigurationPropertiesBeanRegistrar beanRegistrar = new ConfigurationPropertiesBeanRegistrar(registry);
+		// getTypes(metadata) -> 处理 EnableConfigurationProperties#value；返回值：Set<Class<?>>
+		// beanRegistrar::register  -> 将 getTypes(metadata) 返回的 Class 注册到容器中；@ConfigurationProperties#prefix 有值时，bean name 与其相关
 		getTypes(metadata).forEach(beanRegistrar::register);
 	}
 
@@ -57,8 +64,11 @@ class EnableConfigurationPropertiesRegistrar implements ImportBeanDefinitionRegi
 			.collect(Collectors.toSet());
 	}
 
+	// 注册基础设施 Bean
 	static void registerInfrastructureBeans(BeanDefinitionRegistry registry) {
+		// register ConfigurationPropertiesBindingPostProcessor and ConfigurationPropertiesBinder
 		ConfigurationPropertiesBindingPostProcessor.register(registry);
+		// register BoundConfigurationProperties
 		BoundConfigurationProperties.register(registry);
 	}
 

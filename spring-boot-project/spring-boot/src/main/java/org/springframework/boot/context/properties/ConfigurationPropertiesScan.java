@@ -39,6 +39,11 @@ import org.springframework.stereotype.Component;
  * @author Madhura Bhave
  * @since 2.2.0
  */
+// 配置扫描 {@link ConfigurationProperties @ConfigurationProperties} 类时使用的基础包。
+// 可以指定 {@link #basePackageClasses()}、{@link #basePackages()} 或其别名 {@link #value()} 之一来定义要扫描的具体包。
+// 如果未定义具体包，则扫描将从带有此注解的类的包开始。
+//
+// <p> 注意：此注解不会扫描带有 {@link Component @Component} 注解或元注解的类。
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -52,6 +57,10 @@ public @interface ConfigurationPropertiesScan {
 	 * {@code @ConfigurationPropertiesScan(basePackages="org.my.pkg")}.
 	 * @return the base packages to scan
 	 */
+	// {@link #basePackages()} 属性的别名。
+	// 允许使用更简洁的注解声明，例如：{@code @ConfigurationPropertiesScan("org.my.pkg")}
+	// 而不是 {@code @ConfigurationPropertiesScan(basePackages="org.my.pkg")}。
+	// @return 要扫描的基础包
 	@AliasFor("basePackages")
 	String[] value() default {};
 
@@ -63,6 +72,10 @@ public @interface ConfigurationPropertiesScan {
 	 * package names.
 	 * @return the base packages to scan
 	 */
+	// 要扫描配置属性的基础包。{@link #value()} 是此属性的别名（且与此属性互斥）。
+	// <p>
+	// 使用 {@link #basePackageClasses()} 来替代基于字符串的包名称，这是一种类型安全的替代方案。
+	// @return 要扫描的基础包
 	@AliasFor("value")
 	String[] basePackages() default {};
 
@@ -75,6 +88,10 @@ public @interface ConfigurationPropertiesScan {
 	 * serves no purpose other than being referenced by this attribute.
 	 * @return classes from the base packages to scan
 	 */
+	// 类型安全的 {@link #basePackages()} 替代方案，用于指定要扫描配置属性的包。每个指定的类的包都将被扫描。
+	// <p>
+	// 考虑在每个包中创建一个特殊的无操作标记类或接口，除了被此属性引用外，没有其他用途。
+	// @return 来自要扫描的基础包的类
 	Class<?>[] basePackageClasses() default {};
 
 }

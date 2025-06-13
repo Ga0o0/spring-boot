@@ -34,6 +34,8 @@ import org.springframework.context.annotation.Import;
  * @author Dave Syer
  * @since 1.0.0
  */
+// 启用对 {@link ConfigurationProperties @ConfigurationProperties} 注释 bean 的支持。
+// {@code @ConfigurationProperties} bean 可以以标准方式注册（例如，使用 {@link Bean @Bean} 方法），或者为了方便起见，也可以直接在此注释上指定。
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -44,6 +46,7 @@ public @interface EnableConfigurationProperties {
 	 * The bean name of the configuration properties validator.
 	 * @since 2.2.0
 	 */
+	// 配置属性验证器的 bean 名称。
 	String VALIDATOR_BEAN_NAME = "configurationPropertiesValidator";
 
 	/**
@@ -52,6 +55,8 @@ public @interface EnableConfigurationProperties {
 	 * Spring. Standard Spring Beans will also be scanned regardless of this value.
 	 * @return {@code @ConfigurationProperties} annotated beans to register
 	 */
+	// 方便地将 {@link ConfigurationProperties @ConfigurationProperties} 注解的 bean 快速注册到 Spring。无论此值如何，标准 Spring Bean 都会被扫描。
+	// @return {@code @ConfigurationProperties} 要注册的注解 bean
 	Class<?>[] value() default {};
 
 }

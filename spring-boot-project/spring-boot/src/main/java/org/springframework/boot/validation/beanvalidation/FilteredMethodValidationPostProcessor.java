@@ -33,6 +33,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
  * @author Andy Wilkinson
  * @since 2.4.0
  */
+// 自定义 {@link MethodValidationPostProcessor} 应用 {@link MethodValidationExcludeFilter 排除过滤器}。
 public class FilteredMethodValidationPostProcessor extends MethodValidationPostProcessor {
 
 	private final Collection<MethodValidationExcludeFilter> excludeFilters;

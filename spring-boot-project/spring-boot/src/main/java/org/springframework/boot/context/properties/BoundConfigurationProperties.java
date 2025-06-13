@@ -35,6 +35,7 @@ import org.springframework.util.Assert;
  * @author Madhura Bhave
  * @since 2.3.0
  */
+// 用来记录并提供绑定 {@link ConfigurationProperties @ConfigurationProperties} 的 Bean。
 public class BoundConfigurationProperties {
 
 	private final Map<ConfigurationPropertyName, ConfigurationProperty> properties = new LinkedHashMap<>();

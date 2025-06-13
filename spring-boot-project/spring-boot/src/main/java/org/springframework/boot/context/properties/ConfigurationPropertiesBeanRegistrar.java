@@ -37,6 +37,8 @@ import org.springframework.util.StringUtils;
  * @author Madhura Bhave
  * @author Phillip Webb
  */
+// {@link EnableConfigurationPropertiesRegistrar} 和 {@link ConfigurationPropertiesScanRegistrar} 使用的
+// 委托来为 {@link ConfigurationProperties @ConfigurationProperties} 类注册 bean 定义。
 final class ConfigurationPropertiesBeanRegistrar {
 
 	private final BeanDefinitionRegistry registry;
