@@ -26,16 +26,22 @@ package org.springframework.boot.availability;
  * @author Brian Clozel
  * @since 2.3.0
  */
+// 应用的 “活跃” 状态。
+// <p>
+// 当应用以正确的内部状态运行时，即视为应用处于活跃状态。
+// “活跃” 状态失败意味着应用的内部状态已损坏，且我们无法恢复。因此，平台应重启该应用。
 public enum LivenessState implements AvailabilityState {
 
 	/**
 	 * The application is running and its internal state is correct.
 	 */
+	// 应用程序正在运行，其内部状态正确。
 	CORRECT,
 
 	/**
 	 * The application is running but its internal state is broken.
 	 */
+	// 应用程序正在运行，但其内部状态已损坏。
 	BROKEN
 
 }

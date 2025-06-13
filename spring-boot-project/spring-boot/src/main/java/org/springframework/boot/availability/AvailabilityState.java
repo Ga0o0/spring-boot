@@ -25,6 +25,7 @@ package org.springframework.boot.availability;
  * @see LivenessState
  * @see ReadinessState
  */
+// 用于 {@link ApplicationAvailability} 状态的标记接口。此接口通常在 {@code enum} 类型上实现。
 public interface AvailabilityState {
 
 }

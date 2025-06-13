@@ -105,12 +105,14 @@ class EventPublishingRunListener implements SpringApplicationRunListener, Ordere
 	@Override
 	public void started(ConfigurableApplicationContext context, Duration timeTaken) {
 		context.publishEvent(new ApplicationStartedEvent(this.application, this.args, context, timeTaken));
+		// 当应用程序的 AvailabilityState 发生变化时发送事件 AvailabilityChangeEvent
 		AvailabilityChangeEvent.publish(context, LivenessState.CORRECT);
 	}
 
 	@Override
 	public void ready(ConfigurableApplicationContext context, Duration timeTaken) {
 		context.publishEvent(new ApplicationReadyEvent(this.application, this.args, context, timeTaken));
+		// 当应用程序的 AvailabilityState 发生变化时发送事件 AvailabilityChangeEvent
 		AvailabilityChangeEvent.publish(context, ReadinessState.ACCEPTING_TRAFFIC);
 	}
 
@@ -120,11 +122,13 @@ class EventPublishingRunListener implements SpringApplicationRunListener, Ordere
 		if (context != null && context.isActive()) {
 			// Listeners have been registered to the application context so we should
 			// use it at this point if we can
+			// --> 译文：监听器已经注册到应用程序上下文，因此如果可以的话我们应该在此时使用它
 			context.publishEvent(event);
 		}
 		else {
 			// An inactive context may not have a multicaster so we use our multicaster to
 			// call all the context's listeners instead
+			// --> 译文：非活动上下文可能没有多播器，因此我们使用多播器来调用所有上下文的侦听器
 			if (context instanceof AbstractApplicationContext abstractApplicationContext) {
 				for (ApplicationListener<?> listener : abstractApplicationContext.getApplicationListeners()) {
 					this.initialMulticaster.addApplicationListener(listener);

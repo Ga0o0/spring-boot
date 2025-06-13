@@ -408,16 +408,18 @@ public class SpringApplication {
 				// 在启动时记录应用程序信息。
 				new StartupInfoLogger(this.mainApplicationClass).logStarted(getApplicationLog(), startup);
 			}
-			// 发布事件 ApplicationStartedEvent
+			// 发布事件 ApplicationStartedEvent 和 AvailabilityChangeEvent
 			listeners.started(context, startup.timeTakenToStarted());
 			// 调用 Runners；即：调用 ApplicationRunner.run() 和 CommandRunner.run()
 			callRunners(context, applicationArguments);
 		}
 		catch (Throwable ex) {
+			// 其中会发布事件 ApplicationFailedEvent
 			throw handleRunFailure(context, ex, listeners);
 		}
 		try {
 			if (context.isRunning()) {
+				// 其中会发布事件 ApplicationReadyEvent 和 AvailabilityChangeEvent
 				listeners.ready(context, startup.ready());
 			}
 		}
@@ -442,7 +444,7 @@ public class SpringApplication {
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
 		// 将 ConfigurationPropertySource 支持附加到指定的 Environment
 		ConfigurationPropertySources.attach(environment);
-		// 发布事件 ApplicationContextInitializedEvent
+		// 发布事件 ApplicationEnvironmentPreparedEvent
 		listeners.environmentPrepared(bootstrapContext, environment);
 		// 移动 “defaultProperties” 属性源，使其成为给定 ConfigurableEnvironment 中的最后一个源。
 		DefaultPropertiesPropertySource.moveToEnd(environment);
@@ -486,7 +488,7 @@ public class SpringApplication {
 		applyInitializers(context);
 		// 发布事件 ApplicationContextInitializedEvent
 		listeners.contextPrepared(context);
-		// 当 BootstrapContext 关闭且 ApplicationContext 已准备好时调用的方法。
+		// 当 BootstrapContext 关闭且 ApplicationContext 已准备好时调用的方法。使用 DefaultBootstrapContext#events 发布事件 BootstrapContextClosedEvent
 		bootstrapContext.close(context);
 		if (this.logStartupInfo) {
 			logStartupInfo(context.getParent() == null);
@@ -957,6 +959,7 @@ public class SpringApplication {
 			try {
 				handleExitCode(context, exception);
 				if (listeners != null) {
+					// 发布事件 ApplicationFailedEvent
 					listeners.failed(context, exception);
 				}
 			}

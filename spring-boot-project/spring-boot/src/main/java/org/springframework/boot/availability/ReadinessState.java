@@ -26,16 +26,21 @@ package org.springframework.boot.availability;
  * @author Brian Clozel
  * @since 2.3.0
  */
+// 应用程序的“就绪”状态。
+// <p>
+// 当应用程序处于 {@link LivenessState live} 状态并愿意接受流量时，即被视为就绪状态。“就绪”失败意味着应用程序无法接受流量，并且基础架构应停止向其路由请求。
 public enum ReadinessState implements AvailabilityState {
 
 	/**
 	 * The application is ready to receive traffic.
 	 */
+	// 应用已准备好接收流量。
 	ACCEPTING_TRAFFIC,
 
 	/**
 	 * The application is not willing to receive traffic.
 	 */
+	// 应用不愿意接收流量。
 	REFUSING_TRAFFIC
 
 }

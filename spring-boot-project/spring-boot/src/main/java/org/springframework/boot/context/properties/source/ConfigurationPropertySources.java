@@ -100,6 +100,7 @@ public final class ConfigurationPropertySources {
 		MutablePropertySources sources = ((ConfigurableEnvironment) environment).getPropertySources();
 		PropertySource<?> attached = getAttached(sources); // 获取附加信息
 		if (!isUsingSources(attached, sources)) { // attached 是否是正在使用 Sources
+			// ATTACHED_PROPERTY_SOURCE_NAME = "configurationProperties"
 			attached = new ConfigurationPropertySourcesPropertySource(ATTACHED_PROPERTY_SOURCE_NAME,
 					new SpringConfigurationPropertySources(sources));
 		}
