@@ -41,6 +41,8 @@ import org.springframework.util.CollectionUtils;
  * @author Lasse Wulff
  * @since 2.0.0
  */
+// {@link WebServerFactoryCustomizer} 将 {@link ServerProperties} 和
+// {@link WebListenerRegistrar WebListenerRegistrars} 应用于 servlet web 服务器。
 public class ServletWebServerFactoryCustomizer
 		implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory>, Ordered {
 

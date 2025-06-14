@@ -75,6 +75,7 @@ import org.springframework.util.unit.DataSize;
  * @author Lasse Wulff
  * @since 1.0.0
  */
+// 用于 Web 服务器（例如端口和路径设置）的 {@link ConfigurationProperties @ConfigurationProperties}。
 @ConfigurationProperties("server")
 public class ServerProperties {
 

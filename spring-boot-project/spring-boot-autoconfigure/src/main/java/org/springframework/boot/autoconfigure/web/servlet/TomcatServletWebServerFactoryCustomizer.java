@@ -31,6 +31,7 @@ import org.springframework.util.ObjectUtils;
  * @author Phillip Webb
  * @since 2.0.0
  */
+// {@link WebServerFactoryCustomizer} 将 {@link ServerProperties} 应用于 Tomcat Web 服务器。
 public class TomcatServletWebServerFactoryCustomizer
 		implements WebServerFactoryCustomizer<TomcatServletWebServerFactory>, Ordered {
 

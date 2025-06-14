@@ -39,6 +39,8 @@ import org.springframework.util.Assert;
  * @author Stephane Nicoll
  * @since 2.0.0
  */
+// {@link BeanPostProcessor} 将 Bean 工厂中的
+// 所有 {@link WebServerFactoryCustomizer} Bean 应用于 {@link WebServerFactory} Bean。
 public class WebServerFactoryCustomizerBeanPostProcessor implements BeanPostProcessor, BeanFactoryAware {
 
 	private ListableBeanFactory beanFactory;
@@ -47,6 +49,7 @@ public class WebServerFactoryCustomizerBeanPostProcessor implements BeanPostProc
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
+		// WebServerCustomizerBeanPostProcessor 只能与 ListableBeanFactory 一起使用
 		Assert.isInstanceOf(ListableBeanFactory.class, beanFactory,
 				"WebServerCustomizerBeanPostProcessor can only be used with a ListableBeanFactory");
 		this.beanFactory = (ListableBeanFactory) beanFactory;

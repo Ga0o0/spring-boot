@@ -64,6 +64,7 @@ import org.springframework.util.unit.DataSize;
  * @author Michael Weidmann
  * @since 2.0.0
  */
+// 针对 Servlet 和 Reactive 服务器通用的 Tomcat 特定功能进行定制。
 public class TomcatWebServerFactoryCustomizer
 		implements WebServerFactoryCustomizer<ConfigurableTomcatWebServerFactory>, Ordered {
 

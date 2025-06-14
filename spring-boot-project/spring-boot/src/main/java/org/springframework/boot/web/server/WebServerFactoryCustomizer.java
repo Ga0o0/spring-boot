@@ -36,6 +36,14 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
  * @since 2.0.0
  * @see WebServerFactoryCustomizerBeanPostProcessor
  */
+// 用于自定义 {@link WebServerFactory Web 服务器工厂} 的策略接口。
+// 任何此类 bean 都会在服务器启动前收到服务器工厂的回调，因此您可以设置端口、地址、错误页面等。
+//
+// <p> 注意：此接口的调用通常来自 {@link WebServerFactoryCustomizerBeanPostProcessor}，
+// 而后者本身就是一个 {@link BeanPostProcessor}（在 ApplicationContext 生命周期的早期调用）。
+// 与其使用 {@code @Autowired} 注入依赖项，不如在封装的 BeanFactory 中延迟查找依赖项，这样可能更安全。
+//
+// @param <T> 可配置的 Web 服务器工厂
 @FunctionalInterface
 public interface WebServerFactoryCustomizer<T extends WebServerFactory> {
 
@@ -43,6 +51,8 @@ public interface WebServerFactoryCustomizer<T extends WebServerFactory> {
 	 * Customize the specified {@link WebServerFactory}.
 	 * @param factory the web server factory to customize
 	 */
+	// 自定义指定的 {@link WebServerFactory}。
+	// @param factory 要自定义的 Web 服务器工厂
 	void customize(T factory);
 
 }
